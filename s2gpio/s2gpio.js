@@ -193,6 +193,17 @@
 
         }
     };
+	
+     // when the analog read reporter block is executed
+    ext.analog_read = function (pin) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else {
+                return digital_inputs[parseInt(pin)]
+
+        }
+    };
 
     // general function to validate the pin value
     function validatePin(pin) {
@@ -221,7 +232,8 @@
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
 			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
-            ["r", "Read Digital Pin %n", "digital_read", "PIN"]
+            ["r", "Read Digital Pin %n", "digital_read", "PIN"],
+	    ["r", "Read Analog Pin %n", "analog_read", "PIN"]
 
         ],
         "menus": {
