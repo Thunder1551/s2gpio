@@ -233,7 +233,8 @@
 			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
-	    ["r", "Read Analog Pin %n", "analog_read", "PIN"]
+	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
+	    ["R", "Read DHT11 sensor value %n", "dht11_read", "PIN"]
 
         ],
         "menus": {
