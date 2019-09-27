@@ -206,7 +206,7 @@
     };
 	
     // when the DHT11 sensor value read reporter block is executed
-    ext.dht11_read = function (pin) {
+    ext.temperature = function (pin) {
         if (connected == false) {
             alert("Server Not Connected");
         }
@@ -214,7 +214,7 @@
         //validate the pin number for the mode
         if (validatePin(pin)){
             var msg = JSON.stringify({
-                "command": 'dht11_read', 'pin': pin
+                "command": 'temperature', 'pin': pin
             });
             console.log(msg);
             window.socket.send(msg);
