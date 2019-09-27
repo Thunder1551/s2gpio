@@ -250,7 +250,7 @@
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
-	    [" ", 'Read DHT11 sensor value %n', 'dht11_read', 'PIN']
+	    [" ", 'Read DHT11 sensor value %n', 'temperature', 'PIN']
 
         ],
         "menus": {
