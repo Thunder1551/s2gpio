@@ -110,10 +110,23 @@ class S2Gpio(WebSocket):
                 time.sleep(1)
                 self.pi.wave_tx_stop()
                 self.pi.wave_delete(wid)
+        # when a user wishes to outout a DHT11 sensor value
+        elif client_cmd == 'temperature':
+            pin = int(payload['pin'])
+            temp, hum = dht11_pigpio.read(pin)
+            dht11_callback(temp,hum)
+            
         elif client_cmd == 'ready':
             pass
         else:
             print("Unknown command received", client_cmd)
+    
+    # call back the dht11 sensor value to scratch
+    def dht11_callback(self, temp, hum):
+        payload = {'report': 'send_temp_data', 'temp': str(temp), 'hum': str(hum)}
+        print('callback', payload)
+        msg = json.dumps(payload)
+        self.sendMessage(msg)
 
     # call back from pigpio when a digital input value changed
     # send info back up to scratch
