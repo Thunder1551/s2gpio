@@ -58,12 +58,7 @@
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['level']
             }
-            //handle the reporter message for dht11 sensor value
-            if(reporter === ’send_dht_data’) {
-                var temperature = msg[’temp’];
-                var humidity = msg[’hum’];
-                return temperature;
-            }   
+            
             console.log(message.data)
         };
         window.socket.onclose = function (e) {
