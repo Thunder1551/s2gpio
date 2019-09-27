@@ -2,13 +2,13 @@ from setuptools import setup
 import os
 from subprocess import call
 
-call(["pip3", "install", "git+https://github.com/dpallot/simple-websocket-server.git"])
-call(["pip3", "install", "git+https://github.com/giampaolo/psutil.git"])
+#call(["pip3", "install", "git+https://github.com/dpallot/simple-websocket-server.git"])
+#call(["pip3", "install", "git+https://github.com/giampaolo/psutil.git"])
 
 user = os.listdir("/home")
 pth = '/home/' + user[0]
 
-call(["wget", "-P", pth, "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js?token=AC3MHLSNSRV25PS4SUBNG6S5PDMLW"])
+call(["wget", "-P", pth, "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js"])
 
 setup(
     name='s2gpio',
