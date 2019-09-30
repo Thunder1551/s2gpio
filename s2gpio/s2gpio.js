@@ -24,6 +24,9 @@
     var digital_inputs = new Array(32);
     var myStatus = 1; // initially yellow
     var myMsg = 'not_ready';
+	
+    var temp = 1.0;
+    var hum = 1.0;
 
     ext.cnct = function (callback) {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
@@ -219,6 +222,8 @@
             });
             console.log(msg);
             window.socket.send(msg);
+            sleep(1000);
+            return temp;
         }
     };	
 
@@ -251,7 +256,7 @@
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
-	    [" ", 'Read DHT11 sensor value %n', 'temperature', 'PIN']
+	    ["r", 'Read DHT11 sensor value %n', 'temperature', 'PIN']
 
         ],
         "menus": {
