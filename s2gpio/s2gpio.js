@@ -222,7 +222,9 @@
             });
             console.log(msg);
             window.socket.send(msg);
-            sleep(1000);
+	    window.setTimeout(function() {
+            callback();
+        }, 1000);
             return temp;
         }
     };	
