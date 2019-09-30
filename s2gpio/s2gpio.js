@@ -233,6 +233,22 @@
         }
     };	
 	
+	ext.temp_command = function (pin) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("DHT11 read");
+        //validate the pin number for the mode
+        if (validatePin(pin)){
+            var msg = JSON.stringify({
+                'command': 'temperature', 'pin': pin
+            });
+            console.log(msg);
+            window.socket.send(msg);
+	    
+        }
+    };	
+	
 	// when the DHT11 sensor value read reporter block is executed
     ext.temperaturetest = function (pin, callback) {
         if (connected == false) {
@@ -283,7 +299,8 @@
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
 	    ["r", 'Read DHT11 sensor value %n', 'temperature', 'PIN'],
-	    [" ", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN']
+	    [" ", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
+		[" ", 'output temp and send command %n', 'temp_command', 'PIN']
 
         ],
         "menus": {
