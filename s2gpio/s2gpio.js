@@ -221,7 +221,7 @@
                 "command": 'temperature', 'pin': pin
             });
             console.log(msg);
-            window.socket.send(msg);
+            //window.socket.send(msg);
 	    window.setTimeout(function() {
             callback();
         }, 1000);
