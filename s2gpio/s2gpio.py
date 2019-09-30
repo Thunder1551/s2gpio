@@ -28,7 +28,7 @@ from subprocess import call
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
-
+import dht11_pigpio
 
 # This class inherits from WebSocket.
 # It receives messages from the Scratch and reports back for any digital input
@@ -114,7 +114,10 @@ class S2Gpio(WebSocket):
         elif client_cmd == 'temperature':
             pin = int(payload['pin'])
             temp, hum = dht11_pigpio.read(pin)
-            dht11_callback(temp,hum)
+            payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
+            print('callback', payload)
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
             
         elif client_cmd == 'ready':
             pass
@@ -122,11 +125,12 @@ class S2Gpio(WebSocket):
             print("Unknown command received", client_cmd)
     
     # call back the dht11 sensor value to scratch
-    def dht11_callback(self, temp, hum):
-        payload = {'report': 'send_temp_data', 'temp': str(temp), 'hum': str(hum)}
-        print('callback', payload)
-        msg = json.dumps(payload)
-        self.sendMessage(msg)
+    
+    #def dht11_callback(self, temp, hum):
+    #    payload = {'report': 'send_temp_data', 'temp': str(temp), 'hum': str(hum)}
+   #     print('callback', payload)
+   #     msg = json.dumps(payload)
+   #     self.sendMessage(msg)
 
     # call back from pigpio when a digital input value changed
     # send info back up to scratch
