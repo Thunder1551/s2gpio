@@ -61,10 +61,10 @@
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['level']
             }
-	    if(reporter === 'temp_data') {
-		    temp = msg['temp'];
-		    hum = msg['hum']
-	    }
+	   #if(reporter === 'temp_data') {
+	#	    temp = msg['temp'];
+	#	    hum = msg['hum']
+	 #}
             
             console.log(message.data)
         };
@@ -222,7 +222,7 @@
         //validate the pin number for the mode
         if (validatePin(pin)){
             var msg = JSON.stringify({
-                "command": 'temperature', 'pin': pin
+                "command": 'temperature2', 'pin': pin
             });
             console.log(msg);
             //window.socket.send(msg);
