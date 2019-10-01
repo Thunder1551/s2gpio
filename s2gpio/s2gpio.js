@@ -120,6 +120,23 @@
             window.socket.send(msg);
         }
     };
+	
+	// copied digital write block
+    ext.digital_write2 = function (pin, state) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("digital write2");
+        // validate the pin number for the mode
+        if (validatePin(pin)) {
+            var msg = JSON.stringify({
+                "command": 'digital_write2', 'pin': pin, 'state': state
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
+    };
+
 
     // when the PWM block is executed
     ext.analog_write = function (pin, value) {
@@ -293,6 +310,7 @@
             ["w", 'Connect to s2gpio server.', 'cnct'],
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
+		[" ", "Set BCM %n Output to %m.high_low", "digital_write2", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
 			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
