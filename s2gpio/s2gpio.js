@@ -61,10 +61,10 @@
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['level']
             }
-	   #if(reporter === 'temp_data') {
-	#	    temp = msg['temp'];
-	#	    hum = msg['hum']
-	 #}
+	//   if(reporter === 'temp_data') {
+	//	    temp = msg['temp'];
+	//	    hum = msg['hum']
+	 //}
             
             console.log(message.data)
         };
