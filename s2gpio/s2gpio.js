@@ -218,7 +218,7 @@
         if (connected == false) {
             alert("Server Not Connected");
         }
-        console.log("DHT11 read");
+        console.log("temperature");
         //validate the pin number for the mode
         if (validatePin(pin)){
             var msg = JSON.stringify({
@@ -237,11 +237,11 @@
         if (connected == false) {
             alert("Server Not Connected");
         }
-        console.log("DHT11 read");
+        console.log("temp command");
         //validate the pin number for the mode
         if (validatePin(pin)){
             var msg = JSON.stringify({
-                'command': 'temperature', 'pin': pin
+                "command": 'temperature', 'pin': pin
             });
             console.log(msg);
             window.socket.send(msg);
@@ -300,7 +300,7 @@
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
 	    ["r", 'Read DHT11 sensor value %n', 'temperature', 'PIN'],
 	    [" ", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
-		[" ", 'output temp and send command %n', 'temp_command', 'PIN']
+		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
         "menus": {
