@@ -59,10 +59,11 @@ class S2Gpio(WebSocket):
             pin = int(payload['pin'])
             self.pi.set_mode(pin, pigpio.OUTPUT)
             state = payload['state']
-            if state == '0':
-                self.pi.write(pin, 0)
-            else:
-                self.pi.write(pin, 1)
+            self.pi.write(pin, 1)
+            #if state == '0':
+             #   self.pi.write(pin, 0)
+            #else:
+             #   self.pi.write(pin, 1)
         # when a user wishes to set a pwm level for a digital input pin
         elif client_cmd == 'analog_write':
             pin = int(payload['pin'])
