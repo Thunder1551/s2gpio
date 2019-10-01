@@ -115,9 +115,19 @@ class S2Gpio(WebSocket):
             pin = int(payload['pin'])
             temp, hum = dht11_pigpio.read(pin)
             payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
-            print('callback', payload)
+          #  print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
+            
+        elif client_cmd == 'temperature2':
+            pin = int(payload['pin'])
+            #temp, hum = dht11_pigpio.read(pin)
+            #payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
+            #print('callback', payload)
+            #msg = json.dumps(payload)
+            #self.sendMessage(msg)
+            self.pi.set_mode(pin, pigpio.OUTPUT)
+            self.pi.write(pin, 1)
             
         elif client_cmd == 'ready':
             pass
