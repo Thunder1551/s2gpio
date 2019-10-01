@@ -25,7 +25,7 @@
     var myStatus = 1; // initially yellow
     var myMsg = 'not_ready';
 	
-    var temp = 1;
+    var temp = 2;
     var hum = 1.0;
 
     ext.cnct = function (callback) {
