@@ -25,7 +25,7 @@
     var myStatus = 1; // initially yellow
     var myMsg = 'not_ready';
 	
-    var temp = 1.0;
+    var temp = 1;
     var hum = 1.0;
 
     ext.cnct = function (callback) {
@@ -60,6 +60,10 @@
             if(reporter === 'digital_input_change') {
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['level']
+            }
+            if(reporter === 'digital_input_change2') {
+                var pin = msg['pin'];
+                temp = parseInt(pin)
             }
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
