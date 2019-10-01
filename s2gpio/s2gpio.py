@@ -28,7 +28,7 @@ from subprocess import call
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
-#import dht11_pigpio
+
 
 # This class inherits from WebSocket.
 # It receives messages from the Scratch and reports back for any digital input
