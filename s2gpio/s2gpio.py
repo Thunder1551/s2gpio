@@ -60,6 +60,9 @@ class S2Gpio(WebSocket):
             self.pi.set_mode(pin, pigpio.OUTPUT)
             state = payload['state']
             self.pi.write(pin, 1)
+            payload = {'report': 'digital_input_change2', 'pin': str(pin), 'level': str(level)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
             #if state == '0':
              #   self.pi.write(pin, 0)
             #else:
