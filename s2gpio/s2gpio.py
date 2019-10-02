@@ -57,12 +57,15 @@ class S2Gpio(WebSocket):
                 self.pi.write(pin, 1)
         elif client_cmd == 'digital_write2':
             pin = int(payload['pin'])
-            self.pi.set_mode(pin, pigpio.OUTPUT)
-            state = payload['state']
-            self.pi.write(pin, 1)
-            payload = {'report': 'digital_input_change2', 'pin': str(pin), 'level': str(level)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
+            #self.pi.set_mode(pin, pigpio.OUTPUT)
+            #state = payload['state']
+            #self.pi.write(pin, 1)
+            self.pi.set_glitch_filter(pin, 20000)
+            self.pi.set_mode(pin, pigpio.INPUT)
+            self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
+            #payload = {'report': 'digital_input_change2', 'pin': str(pin), 'level': str(level)}
+            #msg = json.dumps(payload)
+            #self.sendMessage(msg)
             #if state == '0':
              #   self.pi.write(pin, 0)
             #else:
@@ -158,6 +161,12 @@ class S2Gpio(WebSocket):
     # send info back up to scratch
     def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
+        print('callback', payload)
+        msg = json.dumps(payload)
+        self.sendMessage(msg)
+        
+    def input_callback2(self, pin, level, tick):
+        payload = {'report': 'digital_write2', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
         msg = json.dumps(payload)
         self.sendMessage(msg)
