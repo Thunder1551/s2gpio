@@ -63,7 +63,7 @@
             }
             if(reporter === 'digital_input_change2') {
                 var pin = msg['pin'];
-                temp = parseInt(pin)
+                temp = 4
             }
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
