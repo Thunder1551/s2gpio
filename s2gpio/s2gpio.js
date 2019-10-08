@@ -276,7 +276,7 @@
     };	
 	    
 	  // return value of var hum originally 3 and set by write block
-    ext.temperature = function (pin) {
+    ext.humidity = function (pin) {
         if (connected == false) {
             alert("Server Not Connected");
         }
