@@ -146,6 +146,7 @@
             console.log(msg);
             window.socket.send(msg);
         }
+    };
 	// call websever to return pin number    
     ext.write = function (pin, state) {
         if (connected == false) {
