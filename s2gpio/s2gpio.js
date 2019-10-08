@@ -68,8 +68,9 @@
             }
 	    if(reporter === 'write_return') {
                 var pin = msg['pin'];
-                temp = 4;
 		var temporary = msg['level'];
+                temp = 4;
+		temp = int(temporary);
 		hum = int(pin);
             }
 	//   if(reporter === 'temp_data') {
