@@ -24,9 +24,9 @@
     var digital_inputs = new Array(32);
     var myStatus = 1; // initially yellow
     var myMsg = 'not_ready';
-	
+    
     var temp = 2;
-    var hum = 1.0;
+    var hum = 3;
 
     ext.cnct = function (callback) {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
@@ -65,6 +65,12 @@
             if(reporter === 'digital_input_change2') {
                 var pin = msg['pin'];
                 temp = 4;
+            }
+	    if(reporter === 'digital_input_change3') {
+                var pin = msg['pin'];
+                temp = 4;
+		var temporary = msg['level'];
+		hum = int(temporary);
             }
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
