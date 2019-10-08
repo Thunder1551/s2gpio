@@ -63,7 +63,7 @@ class S2Gpio(WebSocket):
             #self.pi.set_glitch_filter(pin, 20000)
             #self.pi.set_mode(pin, pigpio.INPUT)
             #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
-            var number = 5
+            number = 5
             payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
