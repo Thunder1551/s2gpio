@@ -57,8 +57,8 @@ class S2Gpio(WebSocket):
                 self.pi.write(pin, 1)
         elif client_cmd == 'digital_write2':
             pin = int(payload['pin'])
-            #self.pi.set_mode(pin, pigpio.OUTPUT)
-            #state = payload['state']
+            self.pi.set_mode(pin, pigpio.OUTPUT)
+            state = payload['state']
             #self.pi.write(pin, 1)
             #self.pi.set_glitch_filter(pin, 20000)
             #self.pi.set_mode(pin, pigpio.INPUT)
@@ -66,10 +66,10 @@ class S2Gpio(WebSocket):
             #payload = {'report': 'digital_input_change2', 'pin': str(pin), 'level': str(level)}
             #msg = json.dumps(payload)
             #self.sendMessage(msg)
-            #if state == '0':
-             #   self.pi.write(pin, 0)
-            #else:
-             #   self.pi.write(pin, 1)
+            if state == '0':
+                self.pi.write(pin, 0)
+            else:
+                self.pi.write(pin, 1)
         # when a user wishes to set a pwm level for a digital input pin
         elif client_cmd == 'analog_write':
             pin = int(payload['pin'])
