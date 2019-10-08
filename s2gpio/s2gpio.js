@@ -59,6 +59,7 @@
             var reporter = msg['report'];
             if(reporter === 'digital_input_change') {
                 var pin = msg['pin'];
+		temp = 4;
                 digital_inputs[parseInt(pin)] = msg['level']
             }
             if(reporter === 'digital_input_change2') {
