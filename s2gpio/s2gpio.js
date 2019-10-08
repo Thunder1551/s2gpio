@@ -357,7 +357,7 @@
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
 		[" ", "Set variable temp to 4 %m.high_low", "digital_write2", "PIN", "0"],
-		[" ", "Set variable hum to input pin %m.high_low", "write", "PIN", "0"],
+		[" ", "Set variable hum to input pin BCM %n %m.high_low", "write", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
 			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
