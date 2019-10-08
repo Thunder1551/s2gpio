@@ -70,8 +70,8 @@
                 var pin = msg['pin'];
 		var temporary = msg['level'];
                 temp = 4;
-		temp = int(temporary);
-		hum = int(pin);
+		temp = parseInt(temporary);
+		hum = parseInt(pin);
             }
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
