@@ -66,12 +66,17 @@
                 var pin = msg['pin'];
                 temp = 4;
             }
+            if(reporter === 'digital_input_change3') {
+                var pin = msg['pin'];
+                temp = parseInt(pin);
+		hum = parseInt(msg['level']
+            }
 	    if(reporter === 'write_return') {
-        //        var pin = msg['pin'];
+        	//var pin = msg['pin'];
 		//var temporary = msg['level'];
-            //temp = 4;
-        var tempo = msg['temp'];
-        var humtemp = msg['hum'];        
+                //temp = 4;
+        	var tempo = msg['temp'];
+        	var humtemp = msg['hum'];        
 		temp = parseInt(tempo);
 		hum = parseInt(humtemp);
             }
