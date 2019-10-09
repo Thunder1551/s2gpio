@@ -335,7 +335,7 @@
             window.socket.send(msg);
 	    window.setTimeout(function() {
             callback();
-        }, 1000);
+        }, 2000);
            return temp;
         }
     };	
