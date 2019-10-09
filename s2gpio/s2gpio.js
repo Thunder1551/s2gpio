@@ -373,7 +373,7 @@
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
-	    [" ", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
+	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
 		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
