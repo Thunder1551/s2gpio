@@ -64,7 +64,24 @@ class S2Gpio(WebSocket):
             #self.pi.set_mode(pin, pigpio.INPUT)
             #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
             number = 5
-            payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
+            #payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
+            if state == '0':
+                self.pi.write(pin, 0)
+            else:
+                self.pi.write(pin, 1)
+        # catching write block and returning pin number to js
+        elif client_cmd == 'write':
+            pin = int(payload['pin'])
+            self.pi.set_mode(pin, pigpio.OUTPUT)
+            state = payload['state']
+            #self.pi.write(pin, 1)
+            #self.pi.set_glitch_filter(pin, 20000)
+            #self.pi.set_mode(pin, pigpio.INPUT)
+            #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
+            number = 5
+            payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
             if state == '0':
