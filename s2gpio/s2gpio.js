@@ -70,10 +70,10 @@
         //        var pin = msg['pin'];
 		//var temporary = msg['level'];
             //temp = 4;
-        var tempo = msg['tempvar'];
-        var humtemp = msg['humvar'];        
+        var tempo = msg['temp'];
+        var humtemp = msg['hum'];        
 		temp = parseInt(tempo);
-		hum = parseFloat(humtemp);
+		hum = parseInt(humtemp);
             }
         
             
