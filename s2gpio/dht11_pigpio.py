@@ -139,7 +139,7 @@ class DHT11(object):
         """
         return self
 
-    def next(self):
+    def __next__(self):
         """
         Call the read method and return temperature and humidity informations.
         """
@@ -149,6 +149,8 @@ class DHT11(object):
             'temperature': self.temperature
         }
         return response
+    def next(self):
+        return self.__next()
 
 
 """
