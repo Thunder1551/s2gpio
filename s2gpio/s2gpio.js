@@ -80,10 +80,10 @@
 		temp = parseInt(tempo);
 		hum = parseInt(humtemp);
             }       
-	//   if(reporter === 'temp_data') {
-	//	    temp = msg['temp'];
-	//	    hum = msg['hum']
-	 //}
+	    if(reporter === 'temp_data') {
+	        var temperature = msg['temp'];
+	        temp = parseInt(temperature);
+	    }
             
             console.log(message.data)
         };
@@ -336,7 +336,7 @@
 	    window.setTimeout(function() {
             callback();
         }, 1000);
-           
+           return temp;
         }
     };	
 
