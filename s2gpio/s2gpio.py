@@ -29,7 +29,7 @@ from subprocess import call
 import sys
 import os
 sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio"))
-from dht11_pigpio
+import dht11_pigpio
 
 import pigpio
 import psutil
