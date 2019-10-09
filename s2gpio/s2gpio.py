@@ -65,7 +65,7 @@ class S2Gpio(WebSocket):
             #self.pi.set_mode(pin, pigpio.INPUT)
             #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
             number = 5
-            #payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
+            payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
             if state == '0':
@@ -82,7 +82,7 @@ class S2Gpio(WebSocket):
             #self.pi.set_mode(pin, pigpio.INPUT)
             #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
             #number = 5
-            tempvar, humvar = dht11_pigpio.read(pin);
+            tempvar, humvar = dht11_pigpio.read(pin)
             #payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
             payload = {'report': 'write_return', 'temp': str(tempvar), 'hum': str(humvar)}
             msg = json.dumps(payload)
