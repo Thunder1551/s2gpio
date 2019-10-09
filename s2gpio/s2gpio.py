@@ -84,7 +84,7 @@ class S2Gpio(WebSocket):
             #number = 5
             tempvar, humvar = dht11_pigpio.read(pin)
             #payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
-            payload = {'report': 'write_return', 'temp': str(tempvar), 'hum': str(humvar)}
+            payload = {'report': 'write_return', 'pin': str(tempvar), 'level': str(humvar)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
             if state == '0':
