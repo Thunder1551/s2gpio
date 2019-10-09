@@ -75,13 +75,11 @@
         	//var pin = msg['pin'];
 		//var temporary = msg['level'];
                 //temp = 4;
-        	var tempo = msg['temp'];
-        	var humtemp = msg['hum'];        
+        	var tempo = msg['pin'];
+        	var humtemp = msg['level'];        
 		temp = parseInt(tempo);
 		hum = parseInt(humtemp);
-            }
-        
-            
+            }       
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
 	//	    hum = msg['hum']
