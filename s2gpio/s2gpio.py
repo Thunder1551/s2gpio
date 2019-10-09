@@ -24,7 +24,7 @@ import os
 import sys
 import time
 from subprocess import call
-
+import dht11_pigpio
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
