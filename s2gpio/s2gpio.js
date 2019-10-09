@@ -66,12 +66,11 @@
                 var pin = msg['pin'];
                 temp = 4;
             }
-	    if(reporter === 'write_return') {
+	    if(reporter === 'digital_input_change3') {
                 var pin = msg['pin'];
-		var temporary = msg['level'];
                 temp = 4;
-		temp = parseInt(temporary);
-		hum = parseInt(pin);
+		var temporary = msg['level'];
+		hum = int(temporary);
             }
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
@@ -143,21 +142,6 @@
         if (validatePin(pin)) {
             var msg = JSON.stringify({
                 "command": 'digital_write2', 'pin': pin, 'state': state
-            });
-            console.log(msg);
-            window.socket.send(msg);
-        }
-    };
-	// call websever to return pin number    
-    ext.write = function (pin, state) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        console.log("write");
-        // validate the pin number for the mode
-        if (validatePin(pin)) {
-            var msg = JSON.stringify({
-                "command": 'write', 'pin': pin, 'state': state
             });
             console.log(msg);
             window.socket.send(msg);
@@ -276,26 +260,6 @@
             return temp;
         }
     };	
-	    
-	  // return value of var hum originally 3 and set by write block
-    ext.humidity = function (pin) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        console.log("temperature");
-        //validate the pin number for the mode
-        if (validatePin(pin)){
-            var msg = JSON.stringify({
-                "command": 'humidity', 'pin': pin
-            });
-            console.log(msg);
-            //window.socket.send(msg);
-	    window.setTimeout(function() {
-            callback();
-        }, 1000);
-            return hum;
-        }
-    };
 	
 	ext.temp_command = function (pin) {
         if (connected == false) {
@@ -357,15 +321,13 @@
             ["w", 'Connect to s2gpio server.', 'cnct'],
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
-		[" ", "Set variable temp to 4 %m.high_low", "digital_write2", "PIN", "0"],
-		[" ", "Set variable hum to input pin BCM %n %m.high_low", "write", "PIN", "0"],
+		[" ", "Set BCM %n Output to %m.high_low", "digital_write2", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
 			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
-	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
-		["r", 'return variable hum %n', 'humidity', 'PIN'],
+	    ["r", 'Read DHT11 sensor value %n', 'temperature', 'PIN'],
 	    [" ", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
 		[" ", "send command %n", "temp_command", "PIN"]
 
