@@ -69,7 +69,7 @@
             if(reporter === 'digital_input_change3') {
                 var pin = msg['pin'];
                 temp = parseInt(pin);
-		hum = parseInt(msg['level'])
+		hum = 5;
             }
 	    if(reporter === 'write_return') {
         	//var pin = msg['pin'];
