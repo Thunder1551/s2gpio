@@ -23,6 +23,7 @@ import json
 import os
 import sys
 import time
+import datetime
 from subprocess import call
 import dht11_pigpio
 import pigpio
@@ -74,7 +75,7 @@ class S2Gpio(WebSocket):
         # catching write block and returning pin number to js
         elif client_cmd == 'write':
             pin = int(payload['pin'])
-            self.pi.set_mode(pin, pigpio.OUTPUT)
+            #self.pi.set_mode(pin, pigpio.OUTPUT)
             state = payload['state']
             #self.pi.write(pin, 1)
             #self.pi.set_glitch_filter(pin, 20000)
