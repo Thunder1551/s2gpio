@@ -66,13 +66,20 @@
                 var pin = msg['pin'];
                 temp = 4;
             }
-	    if(reporter === 'write_return') {
+            if(reporter === 'digital_input_change3') {
                 var pin = msg['pin'];
-		var temporary = msg['level'];
-                temp = 4;
-		temp = parseInt(temporary);
-		hum = parseInt(pin);
+                temp = parseInt(pin);
+		hum = 5;
             }
+	    if(reporter === 'write_return') {
+        	//var pin = msg['pin'];
+		//var temporary = msg['level'];
+                //temp = 4;
+        	var tempo = msg['pin'];
+        	var humtemp = msg['level'];        
+		temp = parseInt(tempo);
+		hum = parseInt(humtemp);
+            }       
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
 	//	    hum = msg['hum']

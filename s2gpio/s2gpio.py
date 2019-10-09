@@ -23,8 +23,9 @@ import json
 import os
 import sys
 import time
+import datetime
 from subprocess import call
-
+import dht11_pigpio
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
@@ -64,7 +65,7 @@ class S2Gpio(WebSocket):
             #self.pi.set_mode(pin, pigpio.INPUT)
             #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
             number = 5
-            #payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
+            payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
             if state == '0':
@@ -74,14 +75,16 @@ class S2Gpio(WebSocket):
         # catching write block and returning pin number to js
         elif client_cmd == 'write':
             pin = int(payload['pin'])
-            self.pi.set_mode(pin, pigpio.OUTPUT)
+            #self.pi.set_mode(pin, pigpio.OUTPUT)
             state = payload['state']
             #self.pi.write(pin, 1)
             #self.pi.set_glitch_filter(pin, 20000)
             #self.pi.set_mode(pin, pigpio.INPUT)
             #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
-            number = 5
-            payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
+            #number = 5
+            tempvar, humvar = dht11_pigpio.read(pin)
+            #payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
+            payload = {'report': 'write_return', 'pin': str(tempvar), 'level': str(humvar)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
             if state == '0':
@@ -224,3 +227,4 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
