@@ -67,12 +67,16 @@
                 temp = 4;
             }
 	    if(reporter === 'write_return') {
-                var pin = msg['pin'];
-		var temporary = msg['level'];
-                temp = 4;
-		temp = parseInt(temporary);
-		hum = parseInt(pin);
+        //        var pin = msg['pin'];
+		//var temporary = msg['level'];
+            //temp = 4;
+        var tempo = msg['tempvar'];
+        var humtemp = msg['humvar'];        
+		temp = parseInt(tempo);
+		hum = parseFloat(humtemp);
             }
+        
+            
 	//   if(reporter === 'temp_data') {
 	//	    temp = msg['temp'];
 	//	    hum = msg['hum']
@@ -380,3 +384,4 @@
     // Register the extension
     ScratchExtensions.register('s2gpio', descriptor, ext);
 })({});
+
