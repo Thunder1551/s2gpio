@@ -28,6 +28,9 @@
     var temp = 2;
     var hum = 3;
 
+    var pressure = 10;
+    var altitude = 12;
+
     ext.cnct = function (callback) {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
         window.socket.onopen = function () {
@@ -84,7 +87,12 @@
 	        var temperature = msg['temp'];
 	        temp = parseInt(temperature);
 	    }
-            
+            if(reporter === 'bmp_data') {
+		var temp_pressure = msg['pressure'];
+		var temp_altitude = msg['altitude'];
+		pressure = parseInt(temp_pressure);
+		altitude = parseInt(temp_altitude);
+	    }
             console.log(message.data)
         };
         window.socket.onclose = function (e) {
@@ -339,7 +347,30 @@
            return temp;
         }
     };	
-
+	
+	// when the BMP180 sensor value read reporter block is executed
+    ext.bmp180 = function (bool) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("bmp180 read");
+        //validate the pin number for the mode
+        if (bool === 'No'){
+	    alert("Please check if BMP sensor is connected via channel 0x77");
+	}
+	else {
+            var msg = JSON.stringify({
+                "command": "bmp_read", 'bool': bool
+            });
+            console.log(msg);
+            window.socket.send(msg);
+	    window.setTimeout(function() {
+            callback();
+        }, 2000);
+           return pressure;
+        }
+    };	
+	
     // general function to validate the pin value
     function validatePin(pin) {
         var rValue = true;
@@ -374,11 +405,13 @@
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
 	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
+		["r", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
         "menus": {
-            "high_low": ["0", "1"]
+            "high_low": ["0", "1"],
+            "yes_no": ["No", "Yes"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
