@@ -30,6 +30,7 @@ import sys
 import os
 sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio"))
 import dht11_pigpio
+import bmp_read
 
 import pigpio
 import psutil
@@ -159,6 +160,15 @@ class S2Gpio(WebSocket):
           #  print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
+            
+        # when a user wishes to outout a BMP180 sensor value
+        elif client_cmd == 'bmp_read':
+            # bool = int(payload['bool'])
+            pressure, altitude = bmp_read.read_sensor()
+            payload = {'report': 'bmp_data', 'pressure': str(pressure), 'altitude': str(altitude)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)    
+            
             
         elif client_cmd == 'temperature2':
             pin = int(payload['pin'])
