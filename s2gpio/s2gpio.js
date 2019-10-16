@@ -405,7 +405,7 @@
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
 	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
-		["r", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
+		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
