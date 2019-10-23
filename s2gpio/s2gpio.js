@@ -30,6 +30,7 @@
 
     var pressure = 10;
     var altitude = 12;
+    var direction = '';
 
     ext.cnct = function (callback) {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
@@ -86,6 +87,10 @@
 	    if(reporter === 'temp_data') {
 	        var temperature = msg['temp'];
 	        temp = parseInt(temperature);
+	    }
+	    if(reporter === 'joystick_data') {
+		var temp_direction = msg['direction'];
+		direction = temp_direction;
 	    }
             if(reporter === 'bmp_data') {
 		var temp_pressure = msg['pressure'];
@@ -347,6 +352,28 @@
            return temp;
         }
     };	
+		// when the Joystick read reporter block is executed
+    ext.joystick = function (bool) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("Joystick read");
+        //validate the pin number for the mode
+        if (bool === 'No'){
+	    alert("Please check if Joystick is connected via channel 0x77");
+	}
+	else {
+            var msg = JSON.stringify({
+                "command": "joystick_read", 'bool': bool
+            });
+            console.log(msg);
+            window.socket.send(msg);
+	    window.setTimeout(function() {
+            callback();
+        }, 2000);
+           return direction;
+        }
+    };	
 	
 	// when the BMP180 sensor value read reporter block is executed
     ext.bmp180 = function (bool) {
@@ -405,6 +432,7 @@
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
 	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
+		["R", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
