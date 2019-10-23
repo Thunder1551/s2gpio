@@ -30,7 +30,7 @@
 
     var pressure = 10;
     var altitude = 12;
-    var direction = '';
+    var direction = 'undefined';
 
     ext.cnct = function (callback) {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
@@ -432,7 +432,7 @@
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
 	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
-		["R", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
+		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
