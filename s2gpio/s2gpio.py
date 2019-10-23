@@ -31,6 +31,7 @@ import os
 sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio"))
 import dht11_pigpio
 import bmp_read
+import joystick_PS2_python3 as joystick
 
 import pigpio
 import psutil
@@ -160,7 +161,15 @@ class S2Gpio(WebSocket):
           #  print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
-            
+        
+         # when a user wishes to outout a Joystick value
+        elif client_cmd == 'joystick_read':
+            # bool = int(payload['bool'])
+            direction = joystick.read()
+            payload = {'report': 'joystick_data', 'direction': str(direction)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)    
+        
         # when a user wishes to outout a BMP180 sensor value
         elif client_cmd == 'bmp_read':
             # bool = int(payload['bool'])
