@@ -456,7 +456,7 @@
 	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
-		[" ", "Write %n on line %o.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
+		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
