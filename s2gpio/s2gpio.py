@@ -32,6 +32,7 @@ sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio"))
 import dht11_pigpio
 import bmp_read
 import joystick_PS2_python3
+import i2c_lcd1602_write as lcd
 
 import pigpio
 import psutil
@@ -170,6 +171,12 @@ class S2Gpio(WebSocket):
             msg = json.dumps(payload)
             self.sendMessage(msg)    
         
+        # when a user wishes to write on the lcd1602 display
+        elif client_cmd == 'lcd1602_write':
+            message = payload['text']
+            line = int(payload['line'])
+            lcd.write_message(message, line)  
+            
         # when a user wishes to outout a BMP180 sensor value
         elif client_cmd == 'bmp_read':
             # bool = int(payload['bool'])
