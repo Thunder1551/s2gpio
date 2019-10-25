@@ -385,7 +385,7 @@
         if (bool === 'No'){
 	    alert("Please check if Display is connected via channel 0x27");
 	}
-	else if (text ==== 'TEXT'){
+	else if (text === 'TEXT'){
 		alert("Please input your Text to display");
 	}
 	else {
