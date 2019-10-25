@@ -375,6 +375,32 @@
         }
     };	
 	
+    // when the LCD1602 Block is executed
+    ext.lcd1602 = function (text, line, bool) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("write to lcd1602 display");
+        //validate the pin number for the mode
+        if (bool === 'No'){
+	    alert("Please check if Display is connected via channel 0x27");
+	}
+	else if (text ==== 'TEXT'){
+		alert("Please input your Text to display");
+	}
+	else {
+            var msg = JSON.stringify({
+                "command": "lcd1602_write", 'text': text, 'line': line
+            });
+            console.log(msg);
+            window.socket.send(msg);
+	    #window.setTimeout(function() {
+            #callback();
+        #}, 2000);
+            #return direction;
+        }
+    };
+	
 	// when the BMP180 sensor value read reporter block is executed
     ext.bmp180 = function (bool) {
         if (connected == false) {
@@ -434,6 +460,7 @@
 	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
+		[" ", "Write %n on line %o.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
