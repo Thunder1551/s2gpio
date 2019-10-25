@@ -173,8 +173,8 @@ class S2Gpio(WebSocket):
         
         # when a user wishes to write on the lcd1602 display
         elif client_cmd == 'lcd1602_write':
-            val message = payload['text']
-            val line = int(payload['line'])
+            message = payload['text']
+            line = int(payload['line'])
             i2c_lcd1602_write.write_message(message, line)  
             
         # when a user wishes to outout a BMP180 sensor value
