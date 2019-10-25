@@ -394,10 +394,6 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	    #window.setTimeout(function() {
-            #callback();
-        #}, 2000);
-            #return direction;
         }
     };
 	
