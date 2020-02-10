@@ -9,6 +9,10 @@ user = os.listdir("/home")
 pth = '/home/' + user[0]
 
 call(["wget", "-P", pth, "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js"])
+call(["wget", "-P", "/usr/lib/scratch2/scratch_extensions", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js"])
+call(["wget", "-P", "/usr/lib/scratch2/scratch_extensions", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/additional_files/extensions.json"])
+call(["wget", "-P", "/usr/lib/scratch2/medialibrarythumbnails", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/docs/images/mry.png"])
+
 
 setup(
     name='s2gpio',
