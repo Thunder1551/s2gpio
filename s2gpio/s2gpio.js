@@ -334,7 +334,7 @@
     };	
 	
 	// when the DHT11 sensor value read reporter block is executed
-    ext.temperaturetest = function (pin, callback) {
+    ext.temperaturetest = async function (pin, callback) {
         if (connected == false) {
             alert("Server Not Connected");
         }
@@ -347,9 +347,10 @@
             console.log(msg);
             window.socket.send(msg);
 	    //window.setTimeout(function() {
-            callback();
-        }, 2000);
-	   window.setTimeout(function, 20000);
+            //callback();
+       // }, 2000);
+	   //window.setTimeout(function, 20000);
+	   await sleep(2000);
            return temp;
         }
     };	
@@ -436,6 +437,11 @@
             }
         }
         return rValue;
+    }
+
+    // sleep function a deal with waiting for variable changes
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     // Block and block menu descriptions
