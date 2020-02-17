@@ -349,8 +349,8 @@
 	    //window.setTimeout(function() {
             //callback();
        // }, 2000);
-	   //window.setTimeout(function, 20000);
-	   await sleep(2000);
+	   window.setTimeout(function, 20000);
+	   //await sleep(2000);
            return temp;
         }
     };	
