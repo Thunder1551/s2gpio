@@ -349,7 +349,7 @@
 	    //window.setTimeout(function() {
             callback();
         }, 2000);
-	   window.setTimeout(function, 2000);
+	   window.setTimeout(function, 20000);
            return temp;
         }
     };	
