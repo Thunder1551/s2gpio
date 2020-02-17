@@ -346,10 +346,10 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	    window.setTimeout(function() {
+	    //window.setTimeout(function() {
             callback();
         }, 2000);
-	   // window.setTimeout(function, 2000);
+	   window.setTimeout(function, 2000);
            return temp;
         }
     };	
