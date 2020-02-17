@@ -349,6 +349,7 @@
 	    window.setTimeout(function() {
             callback();
         }, 2000);
+	   // window.setTimeout(function, 2000);
            return temp;
         }
     };	
