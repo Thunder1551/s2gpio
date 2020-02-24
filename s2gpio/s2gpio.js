@@ -91,8 +91,13 @@
 		hum = parseInt(humtemp);
             }       
 	    if(reporter === 'temp_data') {
+		timestamp3 = Date.now();
 	        var temperature = msg['temp'];
 	        temp = parseInt(temperature);
+		var temp_ts1 = msg['ts1'];
+		var temp_ts2 = msg['ts2'];
+		timestamp1 = parseInt(temp_ts1);
+		timestamp2 = parseInt(temp_ts2);
 	    }
 	    if(reporter === 'joystick_data') {
 		var temp_direction = msg['direction'];
