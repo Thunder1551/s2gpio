@@ -156,9 +156,11 @@ class S2Gpio(WebSocket):
                 self.pi.wave_delete(wid)
         # when a user wishes to outout a DHT11 sensor value
         elif client_cmd == 'temperature':
+            ts1 = int(time.time()*1000)
             pin = int(payload['pin'])
             temp, hum = dht11_pigpio.read(pin)
-            payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
+            ts2 = int(time.time()*1000)
+            payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum), 'ts1': str(ts1), 'ts2': str(ts2)}
           #  print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
