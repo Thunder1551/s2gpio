@@ -70,7 +70,7 @@
             if(reporter === 'digital_input_change') {
                 var pin = msg['pin'];
 		temp = 4;
-                digital_inputs[parseInt(pin)] = msg['level']
+                digital_inputs[parseInt(pin)] = msg['level'];
             }
             if(reporter === 'digital_input_change2') {
                 var pin = msg['pin'];
@@ -109,14 +109,14 @@
 		pressure = parseInt(temp_pressure);
 		altitude = parseInt(temp_altitude);
 	    }
-            console.log(message.data)
+            console.log(message.data);
         };
         window.socket.onclose = function (e) {
             console.log("Connection closed.");
             socket = null;
             connected = false;
             myStatus = 1;
-            myMsg = 'not_ready'
+            myMsg = 'not_ready';
         };
     };
 
@@ -272,7 +272,7 @@
             alert("Server Not Connected");
         }
         else {
-                return digital_inputs[parseInt(pin)]
+                return digital_inputs[parseInt(pin)];
 
         }
     };
@@ -283,7 +283,7 @@
             alert("Server Not Connected");
         }
         else {
-                return digital_inputs[parseInt(pin)]
+                return digital_inputs[parseInt(pin)];
 
         }
     };
