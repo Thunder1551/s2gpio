@@ -28,6 +28,12 @@
     var temp = 2;
     var hum = 3;
 
+    var timestamp0 = 0; // TS in blockhandler before message send to server
+    var timestamp1 = 0; // TS in Python when message reveived 
+    var timestamp2 = 0; // TS in Pyython before sensor values send back to JS
+    var timestamp3 = 0; // TS in Websocket.onmessage() when receiving
+    var timestamp4 = 0; // TS when before value return
+
     var pressure = 10;
     var altitude = 12;
     var direction = 'undefined';
@@ -345,6 +351,7 @@
                 "command": "temperature", 'pin': pin
             });
             console.log(msg);
+            timestamp0 = Date.now();
             window.socket.send(msg);
 	    //window.setTimeout(function() {
             //callback();
@@ -421,6 +428,33 @@
            return pressure;
         }
     };	
+
+
+    	// To return Timestamps 0-4
+    ext.ts = function (number) {
+        // output the relevant timestamp
+        if (number === "0"){
+                return timestamp0;
+            }
+        else if (number === "1"){
+                return timestamp1;
+                }
+        else if (number === "2"){
+                return timestamp2;
+                }
+        else if (number === "3"){
+                return timestamp3;
+                }
+        else if (number === "4"){
+                return timestamp4;
+                }
+    };
+	
+    // To return an actual timestamp, here: simulate he time or returning a received sensor value
+    ext.timestamp = function () {
+        var timestamp = Date.now();
+	return timestamp;
+    };
 	
     // general function to validate the pin value
     function validatePin(pin) {
@@ -464,12 +498,15 @@
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-		[" ", "send command %n", "temp_command", "PIN"]
+		[" ", "send command %n", "temp_command", "PIN"],
+            ["r", 'return TS4 %m.timestamps', 'ts', "0"],
+            ["r", 'return Timestamp', 'timestamp']
 
         ],
         "menus": {
             "high_low": ["0", "1"],
-            "yes_no": ["No", "Yes"]
+            "yes_no": ["No", "Yes"],
+            "timestamps": ["0", "1", "2", "3", "4"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
