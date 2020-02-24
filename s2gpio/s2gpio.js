@@ -91,13 +91,13 @@
 		hum = parseInt(humtemp);
             }       
 	    if(reporter === 'temp_data') {
-		timestamp3 = Date.now();
+		//timestamp3 = Date.now();
 	        var temperature = msg['temp'];
 	        temp = parseInt(temperature);
-		var temp_ts1 = msg['ts1'];
-		var temp_ts2 = msg['ts2'];
-		timestamp1 = parseInt(temp_ts1);
-		timestamp2 = parseInt(temp_ts2);
+		//var temp_ts1 = msg['ts1'];
+		//var temp_ts2 = msg['ts2'];
+		//timestamp1 = parseInt(temp_ts1);
+		//timestamp2 = parseInt(temp_ts2);
 	    }
 	    if(reporter === 'joystick_data') {
 		var temp_direction = msg['direction'];
@@ -356,12 +356,12 @@
                 "command": "temperature", 'pin': pin
             });
             console.log(msg);
-            timestamp0 = Date.now();
+            //timestamp0 = Date.now();
             window.socket.send(msg);
 	    //window.setTimeout(function() {
             //callback();
        // }, 2000);
-	   window.setTimeout(function, 20000);
+	  // window.setTimeout(function, 20000);
 	   //await sleep(2000);
            return temp;
         }
