@@ -334,7 +334,7 @@
     };	
 	
 	// when the DHT11 sensor value read reporter block is executed
-    ext.temperaturetest = function (pin, callback) {
+    ext.dht11read = function (pin, callback) {
         if (connected == false) {
             alert("Server Not Connected");
         }
@@ -346,11 +346,14 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	    window.setTimeout(function() {
-            callback();
-        }, 2000);
-           return temp;
+	#    window.setTimeout(function() {
+        #    callback();
+        #}, 2000);
         }
+    };	
+		// when the DHT11 sensor value read reporter block is executed
+    ext.dht11return = function () {
+        return temp
     };	
 		// when the Joystick read reporter block is executed
     ext.joystick = function (bool) {
@@ -368,10 +371,7 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	    window.setTimeout(function() {
-            callback();
-        }, 2000);
-           return direction;
+            return direction;
         }
     };	
 	
@@ -454,7 +454,8 @@
 	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
-	    ["r", 'Read DHT11 sensor value %n', 'temperaturetest', 'PIN'],
+	    [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
+            ["r", 'Read DHT11 sensor value %n', 'dht11return'],
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
