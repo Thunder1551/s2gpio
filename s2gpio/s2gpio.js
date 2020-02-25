@@ -420,6 +420,22 @@
     ext.bmp180return = function () {
         return pressure;
     };	
+
+    // general block to return a value of a chosen sensor model
+    ext.sensor_return = function (model) {
+        if (model === 'MODEL') {
+		alert("Choose a sensor model.");
+        }
+        else if (model === 'bmp180') {
+		return pressure;
+        }
+        else if (model === 'dht11') {
+		return temp;
+        }
+        else if (model === 'joystick') {
+		return direction;
+        }
+    };	
 	
     // general function to validate the pin value
     function validatePin(pin) {
@@ -460,12 +476,14 @@
 		[" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
 	        ["r", "Return BMP180 sensor value", "bmp180return"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-		[" ", "send command %n", "temp_command", "PIN"]
+		[" ", "send command %n", "temp_command", "PIN"],
+		["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
 
         ],
         "menus": {
             "high_low": ["0", "1"],
-            "yes_no": ["No", "Yes"]
+            "yes_no": ["No", "Yes"],
+            "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
