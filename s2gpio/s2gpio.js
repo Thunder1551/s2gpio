@@ -420,6 +420,14 @@
         }
     };	
 	
+        // To return an actual timestamp, here: simulate he time or returning a received sensor value
+    ext.timestamp = function () {
+        if (!Date.now) {
+            Date.now = function now() {
+            return new Date().getTime();
+        }
+    };
+	
     // general function to validate the pin value
     function validatePin(pin) {
         var rValue = true;
@@ -457,7 +465,8 @@
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-		[" ", "send command %n", "temp_command", "PIN"]
+		[" ", "send command %n", "temp_command", "PIN"],
+		["r", 'return Timestamp', 'timestamp']
 
         ],
         "menus": {
