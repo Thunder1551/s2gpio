@@ -161,7 +161,7 @@ class S2Gpio(WebSocket):
             temp, hum = dht11_pigpio.read(pin)
             ts2 = int(time.time()*1000)
            # payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum), 'ts1': str(ts1), 'ts2': str(ts2)}
-           payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
+            payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
           #  print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
