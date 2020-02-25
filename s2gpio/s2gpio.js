@@ -346,9 +346,9 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	#    window.setTimeout(function() {
-        #    callback();
-        #}, 2000);
+	//    window.setTimeout(function() {
+        //    callback();
+        //}, 2000);
         }
     };	
 		// when the DHT11 sensor value read reporter block is executed
