@@ -398,7 +398,7 @@
     };
 	
 	// when the BMP180 sensor value read reporter block is executed
-    ext.bmp180 = function (bool) {
+    ext.bmp180read = function (bool) {
         if (connected == false) {
             alert("Server Not Connected");
         }
@@ -413,13 +413,13 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	    window.setTimeout(function() {
-            callback();
-        }, 2000);
-           return pressure;
         }
     };	
 	
+	// return the BMP180 sensor value
+    ext.bmp180return = function () {
+        return pressure;
+    };	
 	
     // general function to validate the pin value
     function validatePin(pin) {
@@ -455,9 +455,10 @@
 	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
 	    [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
-            ["r", 'Read DHT11 sensor value %n', 'dht11return'],
+            ["r", 'Return DHT11 sensor value', 'dht11return'],
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
-		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
+		[" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
+	        ["r", "Return BMP180 sensor value", "bmp180return"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
 		[" ", "send command %n", "temp_command", "PIN"]
 
