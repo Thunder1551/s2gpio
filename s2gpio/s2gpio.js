@@ -1,6 +1,14 @@
 /**
  Copyright (c) 2016, 2017 Alan Yorinks All right reserved.
 
+if (!Date.now) {
+  Date.now = function now() {
+    return new Date().getTime();
+  };
+}
+
+
+
  Python Banyan is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
  Version 3 as published by the Free Software Foundation; either
