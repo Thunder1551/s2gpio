@@ -1,14 +1,6 @@
 /**
  Copyright (c) 2016, 2017 Alan Yorinks All right reserved.
 
-if (!Date.now) {
-  Date.now = function now() {
-    return new Date().getTime();
-  };
-}
-
-
-
  Python Banyan is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
  Version 3 as published by the Free Software Foundation; either
@@ -35,12 +27,6 @@ if (!Date.now) {
     
     var temp = 2;
     var hum = 3;
-
-    var timestamp0 = 0; // TS in blockhandler before message send to server
-    var timestamp1 = 0; // TS in Python when message reveived 
-    var timestamp2 = 0; // TS in Pyython before sensor values send back to JS
-    var timestamp3 = 0; // TS in Websocket.onmessage() when receiving
-    var timestamp4 = 0; // TS when before value return
 
     var pressure = 10;
     var altitude = 12;
@@ -78,7 +64,7 @@ if (!Date.now) {
             if(reporter === 'digital_input_change') {
                 var pin = msg['pin'];
 		temp = 4;
-                digital_inputs[parseInt(pin)] = msg['level'];
+                digital_inputs[parseInt(pin)] = msg['level']
             }
             if(reporter === 'digital_input_change2') {
                 var pin = msg['pin'];
@@ -99,13 +85,8 @@ if (!Date.now) {
 		hum = parseInt(humtemp);
             }       
 	    if(reporter === 'temp_data') {
-		//timestamp3 = Date.now();
 	        var temperature = msg['temp'];
 	        temp = parseInt(temperature);
-		//var temp_ts1 = msg['ts1'];
-		//var temp_ts2 = msg['ts2'];
-		//timestamp1 = parseInt(temp_ts1);
-		//timestamp2 = parseInt(temp_ts2);
 	    }
 	    if(reporter === 'joystick_data') {
 		var temp_direction = msg['direction'];
@@ -117,14 +98,14 @@ if (!Date.now) {
 		pressure = parseInt(temp_pressure);
 		altitude = parseInt(temp_altitude);
 	    }
-            console.log(message.data);
+            console.log(message.data)
         };
         window.socket.onclose = function (e) {
             console.log("Connection closed.");
             socket = null;
             connected = false;
             myStatus = 1;
-            myMsg = 'not_ready';
+            myMsg = 'not_ready'
         };
     };
 
@@ -280,7 +261,7 @@ if (!Date.now) {
             alert("Server Not Connected");
         }
         else {
-                return digital_inputs[parseInt(pin)];
+                return digital_inputs[parseInt(pin)]
 
         }
     };
@@ -291,7 +272,7 @@ if (!Date.now) {
             alert("Server Not Connected");
         }
         else {
-                return digital_inputs[parseInt(pin)];
+                return digital_inputs[parseInt(pin)]
 
         }
     };
@@ -353,7 +334,7 @@ if (!Date.now) {
     };	
 	
 	// when the DHT11 sensor value read reporter block is executed
-    ext.temperaturetest = async function (pin, callback) {
+    ext.temperaturetest = function (pin, callback) {
         if (connected == false) {
             alert("Server Not Connected");
         }
@@ -364,13 +345,10 @@ if (!Date.now) {
                 "command": "temperature", 'pin': pin
             });
             console.log(msg);
-            //timestamp0 = Date.now();
             window.socket.send(msg);
-	    //window.setTimeout(function() {
-            //callback();
-       // }, 2000);
-	  // window.setTimeout(function, 20000);
-	   //await sleep(2000);
+	    window.setTimeout(function() {
+            callback();
+        }, 2000);
            return temp;
         }
     };	
@@ -441,33 +419,6 @@ if (!Date.now) {
            return pressure;
         }
     };	
-
-
-    	// To return Timestamps 0-4
-    ext.ts = function (number) {
-        // output the relevant timestamp
-        if (number === "0"){
-                return timestamp0;
-            }
-        else if (number === "1"){
-                return timestamp1;
-                }
-        else if (number === "2"){
-                return timestamp2;
-                }
-        else if (number === "3"){
-                return timestamp3;
-                }
-        else if (number === "4"){
-                return timestamp4;
-                }
-    };
-	
-    // To return an actual timestamp, here: simulate he time or returning a received sensor value
-    ext.timestamp = function () {
-        var timestamp = Date.now();
-	return timestamp;
-    };
 	
     // general function to validate the pin value
     function validatePin(pin) {
@@ -484,11 +435,6 @@ if (!Date.now) {
             }
         }
         return rValue;
-    }
-
-    // sleep function a deal with waiting for variable changes
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     // Block and block menu descriptions
@@ -511,15 +457,12 @@ if (!Date.now) {
 		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
 		["R", "Read sensor value of BMP on channel 0x77 %m.yes_no", "bmp180", "No"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-		[" ", "send command %n", "temp_command", "PIN"],
-            ["r", 'return TS4 %m.timestamps', 'ts', "0"],
-            ["r", 'return Timestamp', 'timestamp']
+		[" ", "send command %n", "temp_command", "PIN"]
 
         ],
         "menus": {
             "high_low": ["0", "1"],
-            "yes_no": ["No", "Yes"],
-            "timestamps": ["0", "1", "2", "3", "4"]
+            "yes_no": ["No", "Yes"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
