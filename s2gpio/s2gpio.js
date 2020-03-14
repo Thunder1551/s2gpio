@@ -10,6 +10,11 @@
     
     var temp = 2;
     var hum = 3;
+    
+    var gas_data = 0;
+    var flame_data = 0;
+    var water_data = 0;
+    var sound_data = 0;
 
     var pressure = 10;
     var altitude = 12;
@@ -80,6 +85,22 @@
                 var temp_altitude = msg['altitude'];
                 pressure = parseInt(temp_pressure);
                 altitude = parseInt(temp_altitude);
+            }
+            if(reporter === 'gas_data') {
+                var gas = msg['gas_value'];
+                gas_data = parseInt(gas);
+            }
+            if(reporter === 'flame_data') {
+                var flame = msg['flame_value'];
+                flame_data = parseInt(flame);
+            }
+            if(reporter === 'water_data') {
+                var water = msg['water_value'];
+                water_data = parseInt(water);
+            }
+            if(reporter === 'sound_data') {
+                var sound = msg['sound_value'];
+                sound_data = parseInt(sound);
             }
             console.log(message.data);
         };
@@ -244,7 +265,7 @@
             alert("Server Not Connected");
         }
         else {
-            return digital_inputs[parseInt(pin)]
+            return digital_inputs[parseInt(pin)];
 
         }
     };
@@ -255,7 +276,7 @@
             alert("Server Not Connected");
         }
         else {
-            return digital_inputs[parseInt(pin)]
+            return digital_inputs[parseInt(pin)];
 
         }
     };
@@ -419,7 +440,163 @@
             return direction;
         }
     };
-
+    
+    //when the gas sensor command block is executed
+    ext.gas_read = function (adc, pin, callback) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("gas_sensor read");
+        //validate the adc module
+         if (adc === 'PCF8591') {
+            //validate input pin is between 0-3
+            if (pin > 3 ) {
+                alert("PCF8591 input pin has to be in range 0-3");
+            }
+        }
+        var msg = JSON.stringify({
+                "command": "gas_sensor", 'adc': adc, 'pin': pin
+            });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
+    // when the gas sensor value read reporter block is executed
+    ext.gas_return = function () {
+        return gas_data;
+    };
+    
+    // when the flame sensor command block is executed
+    ext.flame_read = function (adc, pin, callback) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("flame_sensor read");
+        //validate the adc module
+         if (adc === 'PCF8591') {
+            //validate input pin is between 0-3
+            if (pin > 3 ) {
+                alert("PCF8591 input pin has to be in range 0-3");
+            }
+        }
+        var msg = JSON.stringify({
+            "command": "flame_sensor", 'adc': adc, 'pin': pin
+        });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
+    // when the flame sensor value read reporter block is executed
+    ext.flame_return = function () {
+        return flame_data;
+    };
+    
+    // when the water sensor command block is executed
+    ext.water_read = function (adc, pin, callback) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("water_sensor read");
+        //validate the adc module
+        if (adc === 'PCF8591') {
+            //validate input pin is between 0-3
+            if (pin > 3 ) {
+                alert("PCF8591 input pin has to be in range 0-3");
+            }
+        }
+        var msg = JSON.stringify({
+                    "command": "water_sensor", 'adc': adc, 'pin': pin
+                });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
+    // when the water sensor value read reporter block is executed
+    ext.water_return = function () {
+        return water_data;
+    };
+    
+    // when the sound sensor command block is executed
+    ext.sound_read = function (adc, pin, callback) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("sound_sensor read");
+        //validate the adc module
+         if (adc === 'PCF8591') {
+            //validate input pin is between 0-3
+            if (pin > 3 ) {
+                alert("PCF8591 input pin has to be in range 0-3");
+            }
+        }
+        var msg = JSON.stringify({
+            "command": "sound_sensor", 'adc': adc, 'pin': pin
+                });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
+    // when the sound sensor value read reporter block is executed
+    ext.sound_return = function () {
+        return sound_data;
+    };
+    
+    // when the summend analog sensor command block is executed
+    ext.analog_sensor_read = function (sensor, adc, pin, callback) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("analog sensor read");
+        var sensor_model = 'undefined';
+        //validate sensor model
+        switch (sensor) {
+            case 'MODEL':
+                alert("Choose sensor model");
+                break;
+            case 'Gas':
+                sensor_model = 'gas_sensor';
+                break;
+            case 'Water':
+                sensor_model = 'water_sensor';
+                break;
+            case 'Flame':
+                sensor_model = 'flame_sensor';
+                break;
+            case 'Sound':
+                sensor_model = 'sound_sensor';
+                break;
+        }
+        //validate the adc module
+        if (adc === 'PCF8591') {
+            //validate input pin is between 0-3
+            if (pin > 3 ) {
+                alert("PCF8591 input pin has to be in range 0-3");
+            }
+        }
+        var msg = JSON.stringify({
+                    "command": sensor_model, 'adc': adc, 'pin': pin
+                });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
+    // when the summed analog sensor value read reporter block is executed
+    ext.analog_sensor_return = function (sensor) {
+        switch (sensor) {
+            case 'MODEL':
+                alert("Choose sensor model");
+                break;
+            case 'Gas':
+                return gas_data;
+            case 'Water':
+                return water_data;
+            case 'Flame':
+                return flame_data;
+            case 'Sound':
+                return sound_data;
+        }
+    };
+    
     // general function to validate the pin value
     function validatePin(pin) {
         var rValue = true;
@@ -459,7 +636,17 @@
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
             [" ", "send command %n", "temp_command", "PIN"],
-            ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
+            ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"],
+            [" ", "Read gas sensor value at %m.adc input Pin %m.ain", "gas_read", "PCF8591", "1"],
+            ["r", "Return gas sensor value", "gas_return"],
+            [" ", "Read flame sensor value at %m.adc input Pin %m.ain", "flame_read", "PCF8591", "1"],
+            ["r", "Return flame sensor value", "flame_return"],
+            [" ", "Read water sensor value at %m.adc input Pin %m.ain", "water_read", "PCF8591", "1"],
+            ["r", "Return water sensor value", "water_return"], 
+            [" ", "Read sound sensor value at %m.adc input Pin %m.ain", "sound_read", "PCF8591", "1"],
+            ["r", "Return sound sensor value", "sound_return"],
+            [" ", "Read %m.analog_sensor sensor value at %m.adc input Pin %m.ain", "analog_sensor_read", "MODEL", "PCF8591", "1"],
+            ["r", "Return %m.analog_sensor sensor value", "analog_sensor_return", "MODEL"],
 
             
 
