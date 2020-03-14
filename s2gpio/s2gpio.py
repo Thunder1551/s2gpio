@@ -183,8 +183,51 @@ class S2Gpio(WebSocket):
             pressure, altitude = bmp_read.read_sensor()
             payload = {'report': 'bmp_data', 'pressure': str(pressure), 'altitude': str(altitude)}
             msg = json.dumps(payload)
-            self.sendMessage(msg)    
+            self.sendMessage(msg)
+
+        # when a user wishes to output a gas sensor value
+        elif client_cmd == 'gas_sensor':
+            pin = int(payload['pin'])
+            adc = payload['adc']
+            # TODO: try_statement for function call / check for gas_data equals zero or null
+            gas_data = gas_sensor.read(adc, pin)
+            payload = {'report': 'gas_data', 'gas_data': str(gas_data)}
+            #print('callback', payload)
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
             
+        # when a user wishes to output a water sensor value
+        elif client_cmd == 'water_sensor':
+            pin = int(payload['pin'])
+            adc = payload['adc']
+            # TODO: try_statement for function call / check for water_data ! 0 and...
+            water_data = water_sensor.read(adc, pin)
+            payload = {'report': 'water_data', 'water_data': str(water_data)}
+            #print('callback', payload)
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
+            
+        # when a user wishes to output a sound sensor value
+        elif client_cmd == 'sound_sensor':
+            pin = int(payload['pin'])
+            adc = payload['adc']
+            # TODO: try_statement for function call / check for sound_data ! 0 and...
+            sound_data = sound_sensor.read(adc, pin)
+            payload = {'report': 'sound_data', 'sound_data': str(sound_data)}
+            #print('callback', payload)
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
+
+        # when a user wishes to output a flame sensor value
+        elif client_cmd == 'flame_sensor':
+            pin = int(payload['pin'])
+            adc = payload['adc']
+            # TODO: try_statement for function call / check for flame_data ! 0 and...
+            flame_data = flame_sensor.read(adc, pin)
+            payload = {'report': 'flame_data', 'flame_data': str(flame_data)}
+            #print('callback', payload)
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
             
         elif client_cmd == 'temperature2':
             pin = int(payload['pin'])
@@ -201,16 +244,6 @@ class S2Gpio(WebSocket):
         else:
             print("Unknown command received", client_cmd)
     
-    # call back the dht11 sensor value to scratch
-    
-    #def dht11_callback(self, temp, hum):
-    #    payload = {'report': 'send_temp_data', 'temp': str(temp), 'hum': str(hum)}
-   #     print('callback', payload)
-   #     msg = json.dumps(payload)
-   #     self.sendMessage(msg)
-
-    # call back from pigpio when a digital input value changed
-    # send info back up to scratch
     def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
