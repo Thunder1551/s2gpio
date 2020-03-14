@@ -1,20 +1,3 @@
-/**
- Copyright (c) 2016, 2017 Alan Yorinks All right reserved.
-
- Python Banyan is free software; you can redistribute it and/or
- modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- Version 3 as published by the Free Software Foundation; either
- or (at your option) any later version.
- This library is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- General Public License for more details.
-
- You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
- along with this library; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
-
 (function (ext) {
     var socket = null;
 
@@ -63,7 +46,7 @@
             var reporter = msg['report'];
             if(reporter === 'digital_input_change') {
                 var pin = msg['pin'];
-		temp = 4;
+                temp = 4;
                 digital_inputs[parseInt(pin)] = msg['level']
             }
             if(reporter === 'digital_input_change2') {
@@ -73,31 +56,31 @@
             if(reporter === 'digital_input_change3') {
                 var pin = msg['pin'];
                 temp = parseInt(pin);
-		hum = 5;
+                hum = 5;
             }
-	    if(reporter === 'write_return') {
-        	//var pin = msg['pin'];
-		//var temporary = msg['level'];
+            if(reporter === 'write_return') {
+                //var pin = msg['pin'];
+                //var temporary = msg['level'];
                 //temp = 4;
-        	var tempo = msg['pin'];
-        	var humtemp = msg['level'];        
-		temp = parseInt(tempo);
-		hum = parseInt(humtemp);
+                var tempo = msg['pin'];
+                var humtemp = msg['level'];        
+                temp = parseInt(tempo);
+                hum = parseInt(humtemp);
             }       
-	    if(reporter === 'temp_data') {
-	        var temperature = msg['temp'];
-	        temp = parseInt(temperature);
-	    }
-	    if(reporter === 'joystick_data') {
-		var temp_direction = msg['direction'];
-		direction = temp_direction;
-	    }
+            if(reporter === 'temp_data') {
+                var temperature = msg['temp'];
+                temp = parseInt(temperature);
+            }
+            if(reporter === 'joystick_data') {
+                var temp_direction = msg['direction'];
+                direction = temp_direction;
+            }
             if(reporter === 'bmp_data') {
-		var temp_pressure = msg['pressure'];
-		var temp_altitude = msg['altitude'];
-		pressure = parseInt(temp_pressure);
-		altitude = parseInt(temp_altitude);
-	    }
+                var temp_pressure = msg['pressure'];
+                var temp_altitude = msg['altitude'];
+                pressure = parseInt(temp_pressure);
+                altitude = parseInt(temp_altitude);
+            }
             console.log(message.data)
         };
         window.socket.onclose = function (e) {
@@ -152,8 +135,8 @@
             window.socket.send(msg);
         }
     };
-	
-	// copied digital write block
+    
+    // copied digital write block
     ext.digital_write2 = function (pin, state) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -168,7 +151,7 @@
             window.socket.send(msg);
         }
     };
-	// call websever to return pin number    
+    // call websever to return pin number    
     ext.write = function (pin, state) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -239,7 +222,7 @@
             }
         }
     };
-	
+
     // when the play tone block is executed
     ext.play_tone = function (pin, frequency) {
         if (connected == false) {
@@ -265,7 +248,7 @@
 
         }
     };
-	
+
      // when the analog read reporter block is executed
     ext.analog_read = function (pin) {
         if (connected == false) {
@@ -276,7 +259,7 @@
 
         }
     };
-	
+
     // when the DHT11 sensor value read reporter block is executed
     ext.temperature = function (pin) {
         if (connected == false) {
@@ -290,14 +273,14 @@
             });
             console.log(msg);
             //window.socket.send(msg);
-	    window.setTimeout(function() {
+        window.setTimeout(function() {
             callback();
         }, 1000);
             return temp;
         }
-    };	
-	    
-	  // return value of var hum originally 3 and set by write block
+    };
+    
+    // return value of var hum originally 3 and set by write block
     ext.humidity = function (pin) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -310,14 +293,14 @@
             });
             console.log(msg);
             //window.socket.send(msg);
-	    window.setTimeout(function() {
+        window.setTimeout(function() {
             callback();
         }, 1000);
             return hum;
         }
     };
-	
-	ext.temp_command = function (pin) {
+
+    ext.temp_command = function (pin) {
         if (connected == false) {
             alert("Server Not Connected");
         }
@@ -329,11 +312,11 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	    
+    
         }
-    };	
-	
-	// when the DHT11 sensor value read reporter block is executed
+    };
+    
+    // when the DHT11 sensor value read reporter block is executed
     ext.dht11read = function (pin, callback) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -346,16 +329,16 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	//    window.setTimeout(function() {
-        //    callback();
-        //}, 2000);
+            //window.setTimeout(function() {
+            //callback();
+            //}, 2000);
         }
-    };	
-		// when the DHT11 sensor value read reporter block is executed
+    };
+    // when the DHT11 sensor value read reporter block is executed
     ext.dht11return = function () {
         return temp
-    };	
-		// when the Joystick read reporter block is executed
+    };
+    // when the Joystick read reporter block is executed
     ext.joystick = function (bool) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -363,9 +346,9 @@
         console.log("Joystick read");
         //validate the pin number for the mode
         if (bool === 'No'){
-	    alert("Please check if Joystick is connected via channel 0x77");
-	}
-	else {
+            alert("Please check if Joystick is connected via channel 0x77");
+    }
+    else {
             var msg = JSON.stringify({
                 "command": "joystick_read", 'bool': bool
             });
@@ -373,8 +356,8 @@
             window.socket.send(msg);
             return direction;
         }
-    };	
-	
+    };
+    
     // when the LCD1602 Block is executed
     ext.lcd1602 = function (text, line, bool) {
         if (connected == false) {
@@ -383,12 +366,12 @@
         console.log("write to lcd1602 display");
         //validate the pin number for the mode
         if (bool === 'No'){
-	    alert("Please check if Display is connected via channel 0x27");
-	}
-	else if (text === 'TEXT'){
-		alert("Please input your Text to display");
-	}
-	else {
+            alert("Please check if Display is connected via channel 0x27");
+    }
+    else if (text === 'TEXT'){
+        alert("Please input your Text to display");
+    }
+    else {
             var msg = JSON.stringify({
                 "command": "lcd1602_write", 'text': text, 'line': line
             });
@@ -396,8 +379,8 @@
             window.socket.send(msg);
         }
     };
-	
-	// when the BMP180 sensor value read reporter block is executed
+
+    // when the BMP180 sensor value read reporter block is executed
     ext.bmp180read = function (bool) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -405,38 +388,38 @@
         console.log("bmp180 read");
         //validate the pin number for the mode
         if (bool === 'No'){
-	    alert("Please check if BMP sensor is connected via channel 0x77");
-	}
-	else {
+        alert("Please check if BMP sensor is connected via channel 0x77");
+    }
+    else {
             var msg = JSON.stringify({
                 "command": "bmp_read", 'bool': bool
             });
             console.log(msg);
             window.socket.send(msg);
         }
-    };	
-	
-	// return the BMP180 sensor value
+    };
+
+    // return the BMP180 sensor value
     ext.bmp180return = function () {
         return pressure;
-    };	
+    };
 
     // general block to return a value of a chosen sensor model
     ext.sensor_return = function (model) {
         if (model === 'MODEL') {
-		alert("Choose a sensor model.");
+            alert("Choose a sensor model.");
         }
         else if (model === 'bmp180') {
-		return pressure;
+            return pressure;
         }
         else if (model === 'dht11') {
-		return temp;
+            return temp;
         }
         else if (model === 'joystick') {
-		return direction;
+            return direction;
         }
-    };	
-	
+    };
+
     // general function to validate the pin value
     function validatePin(pin) {
         var rValue = true;
@@ -454,36 +437,40 @@
         return rValue;
     }
 
-    // Block and block menu descriptions
-    var descriptor = {
+ var descriptor = {
         blocks: [
             // Block type, block name, function name
             ["w", 'Connect to s2gpio server.', 'cnct'],
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
-		[" ", "Set variable temp to 4 %m.high_low", "digital_write2", "PIN", "0"],
-		[" ", "Set variable hum to input pin BCM %n %m.high_low", "write", "PIN", "0"],
+            [" ", "Set variable temp to 4 %m.high_low", "digital_write2", "PIN", "0"],
+            [" ", "Set variable hum to input pin BCM %n %m.high_low", "write", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
-			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
+            [" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
-	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
-	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
-		["r", 'return variable hum %n', 'humidity', 'PIN'],
-	    [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
+            ["r", "Read Analog Pin %n", "analog_read", "PIN"],
+            ["r", 'return variable temp %n', 'temperature', 'PIN'],
+            ["r", 'return variable hum %n', 'humidity', 'PIN'],
+            [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
-		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
-		[" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
-	        ["r", "Return BMP180 sensor value", "bmp180return"],
-		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-		[" ", "send command %n", "temp_command", "PIN"],
-		["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
+            ["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
+            [" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
+            ["r", "Return BMP180 sensor value", "bmp180return"],
+            [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
+            [" ", "send command %n", "temp_command", "PIN"],
+            ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
+
+            
 
         ],
         "menus": {
             "high_low": ["0", "1"],
             "yes_no": ["No", "Yes"],
-            "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"]
+            "adc": ["PCF8591", "MCP3008"],
+            "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
+            "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Water"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
@@ -492,4 +479,3 @@
     // Register the extension
     ScratchExtensions.register('s2gpio', descriptor, ext);
 })({});
-
