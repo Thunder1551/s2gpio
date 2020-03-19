@@ -578,6 +578,11 @@
                 });
         console.log(msg);
         window.socket.send(msg);
+        // give the server time to receive/answer the message
+        //Todo: Check for connection closure due to too many messages during loops
+        window.setTimeout(function() {
+        callback();
+        }, 1000);
     };
     
     // when the summed analog sensor value read reporter block is executed
