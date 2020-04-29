@@ -393,7 +393,7 @@
         }
     };
     
-    // when the Joystic reporter block was executed
+    // when the Joystick reporter block was executed
     ext.joystick_return = function () {
         return direction;
     };    
@@ -660,9 +660,9 @@
             ["r", 'return variable hum %n', 'humidity', 'PIN'],
             [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
-            [" ", 'MCP3008: Read Joystick on SPI device %m.high_low and port %m.high_low with y_pin %m.ain, x_pin %m.ain, bt_pin %m.ain', 'joystick_read_mcp3008', '0', '0', '7', '6', '5'],
-            [" ", 'PCF8591: Read Joystick on I2C address %m.i2c_address with y_pin %m.ain, x_pin %m.ain, bt_pin %m.ain', 'joystick_read_pcf8591', '0x48', '7', '6', '5'],
-            ["r", 'Return Joystic direction', 'joystic_return'],
+            [" ", 'MCP3008: Read Joystick on SPI device %m.high_low0 and port %m.high_low1 with y_pin %m.y_pin, x_pin %m.x_pin, bt_pin %m.bt_pin', 'joystick_read_mcp3008', 'DEVICE', '0', '7', '6', '5'],
+            [" ", 'PCF8591: Read Joystick on I2C address %m.i2c_address with y_pin %m.ain0, x_pin %m.ain1, bt_pin %m.ain2', 'joystick_read_pcf8591', '0x48', '3', '2', '1'],
+            ["r", 'Return Joystick direction', 'joystick_return'],
             [" ", "Read sensor value of BMP180 on address 0x77 %m.yes_no", "bmp180read", "No"],
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
@@ -683,10 +683,13 @@
 
         ],
         "menus": {
-            "high_low": ["0", "1"],
+            "high_low0": ["0", "1"],
+            "high_low1": ["0", "1"],
             "yes_no": ["No", "Yes"],
             "adc": ["PCF8591", "MCP3008"],
-            "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "y_pin": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "x_pin": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "bt_pin": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
             "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Rain", "Photoresistor"],
             "i2c_address": ["0x48", "0x77"]
