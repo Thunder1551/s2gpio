@@ -367,7 +367,7 @@
 	}
 	else {
             var msg = JSON.stringify({
-                "command": "joystick_read", 'bool': bool
+                "command": "joystick, 'bool': bool
             });
             console.log(msg);
             window.socket.send(msg);
