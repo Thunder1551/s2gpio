@@ -581,7 +581,7 @@
             case 'Flame':
                 sensor_model = 'flame_sensor';
                 break;
-            case 'Photoresistor'
+            case 'Photoresistor':
                 sensor_model = 'photoresistor_sensor';
                 break;
             case 'Sound':
