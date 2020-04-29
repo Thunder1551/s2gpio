@@ -356,22 +356,16 @@
         return temp
     };	
 		// when the Joystick read reporter block is executed
-    ext.joystick = function (bool) {
+    ext.joystick = function () {
         if (connected == false) {
             alert("Server Not Connected");
         }
         console.log("Joystick read");
-        //validate the pin number for the mode
-        if (bool === 'No'){
-	    alert("Please check if Joystick is connected via channel 0x77");
-	}
-	else {
-            var msg = JSON.stringify({
-                "command": "joystick", 'bool': bool
-            });
-            console.log(msg);
-            window.socket.send(msg);
-            return direction;
+        var msg = JSON.stringify({
+            "command": "joystick"
+        });
+        console.log(msg);
+        window.socket.send(msg);
         }
     };	
 	
@@ -472,7 +466,7 @@
 		["r", 'return variable hum %n', 'humidity', 'PIN'],
 	    [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
-		["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
+		[" ", 'Read Joystick', 'joystick'],
 		[" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
 	        ["r", "Return BMP180 sensor value", "bmp180return"],
 		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
