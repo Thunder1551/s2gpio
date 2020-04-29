@@ -407,11 +407,11 @@
         //validate the pin number for the mode
         if (bool === 'No'){
             alert("Please check if Display is connected via address 0x27");
-    }
-    else if (text === 'TEXT'){
+        }
+        else if (text === 'TEXT'){
         alert("Please input your Text to display");
-    }
-    else {
+        }
+        else {
             var msg = JSON.stringify({
                 "command": "lcd1602_write", 'text': text, 'line': line
             });
@@ -429,8 +429,8 @@
         //validate the pin number for the mode
         if (bool === 'No'){
         alert("Please check if BMP sensor is connected via address 0x77");
-    }
-    else {
+        }
+        else {
             var msg = JSON.stringify({
                 "command": "bmp_read", 'bool': bool
             });
@@ -467,7 +467,7 @@
         }
         console.log("gas_sensor read");
         //validate the adc module
-         if (adc === 'PCF8591') {
+        if (adc === 'PCF8591') {
             //validate input pin is between 0-3
             if (pin > 3 ) {
                 alert("PCF8591 input pin has to be in range 0-3");
@@ -492,7 +492,7 @@
         }
         console.log("flame_sensor read");
         //validate the adc module
-         if (adc === 'PCF8591') {
+        if (adc === 'PCF8591') {
             //validate input pin is between 0-3
             if (pin > 3 ) {
                 alert("PCF8591 input pin has to be in range 0-3");
@@ -542,7 +542,7 @@
         }
         console.log("sound_sensor read");
         //validate the adc module
-         if (adc === 'PCF8591') {
+        if (adc === 'PCF8591') {
             //validate input pin is between 0-3
             if (pin > 3 ) {
                 alert("PCF8591 input pin has to be in range 0-3");
