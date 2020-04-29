@@ -30,7 +30,7 @@ import sys
 import os
 sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio/modules"))
 import analog_hall
-import bmp_read
+import bmp
 import dht11
 import flame
 import joystick_ps2
