@@ -13,7 +13,8 @@
     
     var gas_data = 0;
     var flame_data = 0;
-    var water_data = 0;
+    var rain_data = 0;
+    var photoresistor_data = 0;
     var sound_data = 0;
 
     var pressure = 10;
@@ -94,9 +95,9 @@
                 var flame = msg['flame_value'];
                 flame_data = parseInt(flame);
             }
-            if(reporter === 'water_data') {
-                var water = msg['water_value'];
-                water_data = parseInt(water);
+            if(reporter === 'rain_data') {
+                var rain = msg['rain_value'];
+                rain_data = parseInt(rain);
             }
             if(reporter === 'sound_data') {
                 var sound = msg['sound_value'];
@@ -359,25 +360,43 @@
     ext.dht11return = function () {
         return temp;
     };
+    
     // when the Joystick read reporter block is executed
-    ext.joystick = function (bool) {
+    ext.joystick_read_mcp3008 = function (spi_device, spi_port, y_pin, x_pin, bt_pin) {
         if (connected == false) {
             alert("Server Not Connected");
         }
-        console.log("Joystick read");
-        //validate the pin number for the mode
-        if (bool === 'No'){
-            alert("Please check if Joystick is connected via channel 0x77");
-    }
-    else {
+        console.log("Joystick MCP3008 read");
+        var msg = JSON.stringify({
+            "command": "joystick_read_mcp3008", 'spi_device': spi_device, 'spi_port': spi_port, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
+        });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
+    // when the Joystick value 
+    ext.joystick_read_pcf8591 = function (address, y_pin, x_pin, bt_pin) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("Joystick PCF8591 read");
+        //validate input pin is between 0-3
+        if (pin > 3 ) {
+            alert("PCF8591 input pin has to be in range 0-3");
+        }
+        else {
             var msg = JSON.stringify({
-                "command": "joystick_read", 'bool': bool
+                "command": "joystick_read_pcf8591", 'address': address, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
             });
             console.log(msg);
             window.socket.send(msg);
-            return direction;
         }
     };
+    
+    // when the Joystic reporter block was executed
+    ext.joystick_return = function () {
+        return direction;
+    };    
     
     // when the LCD1602 Block is executed
     ext.lcd1602 = function (text, line, bool) {
@@ -387,7 +406,7 @@
         console.log("write to lcd1602 display");
         //validate the pin number for the mode
         if (bool === 'No'){
-            alert("Please check if Display is connected via channel 0x27");
+            alert("Please check if Display is connected via address 0x27");
     }
     else if (text === 'TEXT'){
         alert("Please input your Text to display");
@@ -409,7 +428,7 @@
         console.log("bmp180 read");
         //validate the pin number for the mode
         if (bool === 'No'){
-        alert("Please check if BMP sensor is connected via channel 0x77");
+        alert("Please check if BMP sensor is connected via address 0x77");
     }
     else {
             var msg = JSON.stringify({
@@ -491,12 +510,12 @@
         return flame_data;
     };
     
-    // when the water sensor command block is executed
-    ext.water_read = function (adc, pin, callback) {
+    // when the rain sensor command block is executed
+    ext.rain_read = function (adc, pin, callback) {
         if (connected == false) {
             alert("Server Not Connected");
         }
-        console.log("water_sensor read");
+        console.log("rain_sensor read");
         //validate the adc module
         if (adc === 'PCF8591') {
             //validate input pin is between 0-3
@@ -505,15 +524,15 @@
             }
         }
         var msg = JSON.stringify({
-                    "command": "water_sensor", 'adc': adc, 'pin': pin
+                    "command": "rain_sensor", 'adc': adc, 'pin': pin
                 });
         console.log(msg);
         window.socket.send(msg);
     };
     
-    // when the water sensor value read reporter block is executed
-    ext.water_return = function () {
-        return water_data;
+    // when the rain sensor value read reporter block is executed
+    ext.rain_return = function () {
+        return rain_data;
     };
     
     // when the sound sensor command block is executed
@@ -556,11 +575,14 @@
             case 'Gas':
                 sensor_model = 'gas_sensor';
                 break;
-            case 'Water':
-                sensor_model = 'water_sensor';
+            case 'Rain':
+                sensor_model = 'rain_sensor';
                 break;
             case 'Flame':
                 sensor_model = 'flame_sensor';
+                break;
+            case 'Photoresistor'
+                sensor_model = 'photoresistor_sensor';
                 break;
             case 'Sound':
                 sensor_model = 'sound_sensor';
@@ -593,10 +615,12 @@
                 break;
             case 'Gas':
                 return gas_data;
-            case 'Water':
-                return water_data;
+            case 'Rain':
+                return rain_data;
             case 'Flame':
                 return flame_data;
+            case 'Photoresistor':
+                return photoresistor_data;
             case 'Sound':
                 return sound_data;
         }
@@ -636,8 +660,10 @@
             ["r", 'return variable hum %n', 'humidity', 'PIN'],
             [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
-            ["r", 'Read Joystick on channel 0x77 %m.yes_no', 'joystick', 'No'],
-            [" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
+            [" ", 'MCP3008: Read Joystick on SPI device %m.high_low and port %m.high_low with y_pin %m.ain, x_pin %m.ain, bt_pin %m.ain', 'joystick_read_mcp3008', '0', '0', '7', '6', '5'],
+            [" ", 'PCF8591: Read Joystick on I2C address %m.i2c_address with y_pin %m.ain, x_pin %m.ain, bt_pin %m.ain', 'joystick_read_pcf8591', '0x48', '7', '6', '5'],
+            ["r", 'Return Joystic direction', 'joystic_return'],
+            [" ", "Read sensor value of BMP180 on address 0x77 %m.yes_no", "bmp180read", "No"],
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
             [" ", "send command %n", "temp_command", "PIN"],
@@ -646,8 +672,8 @@
             ["r", "Return gas sensor value", "gas_return"],
             [" ", "Read flame sensor value at %m.adc input Pin %m.ain", "flame_read", "PCF8591", "1"],
             ["r", "Return flame sensor value", "flame_return"],
-            [" ", "Read water sensor value at %m.adc input Pin %m.ain", "water_read", "PCF8591", "1"],
-            ["r", "Return water sensor value", "water_return"], 
+            [" ", "Read rain sensor value at %m.adc input Pin %m.ain", "rain_read", "PCF8591", "1"],
+            ["r", "Return rainf sensor value", "rain_return"], 
             [" ", "Read sound sensor value at %m.adc input Pin %m.ain", "sound_read", "PCF8591", "1"],
             ["r", "Return sound sensor value", "sound_return"],
             [" ", "Read %m.analog_sensor sensor value at %m.adc input Pin %m.ain", "analog_sensor_read", "MODEL", "PCF8591", "1"],
@@ -662,7 +688,8 @@
             "adc": ["PCF8591", "MCP3008"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
-            "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Water"]
+            "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Rain", "Photoresistor"],
+            "i2c_address": ["0x48", "0x77"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
