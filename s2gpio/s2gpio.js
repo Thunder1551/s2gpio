@@ -361,6 +361,20 @@
         return temp;
     };
     
+    // when the Joystick value 
+    ext.joystick = function () {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("Joystick test read");
+        var msg = JSON.stringify({
+            "command": "joystick"
+            //"command": "joystick_read_pcf8591", 'address': address, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
+        });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+    
     // when the Joystick read reporter block is executed
     ext.joystick_read_mcp3008 = function (spi_device, spi_port, y_pin, x_pin, bt_pin) {
         if (connected == false) {
@@ -660,6 +674,7 @@
             ["r", 'return variable hum %n', 'humidity', 'PIN'],
             [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
+            [" ", "PCF8591: Read Joystick", "joystick"],
             [" ", 'MCP3008: Read Joystick on SPI device %m.high_low0 and port %m.high_low1 with y_pin %m.y_pin, x_pin %m.x_pin, bt_pin %m.bt_pin', 'joystick_read_mcp3008', 'DEVICE', '0', '7', '6', '5'],
             [" ", 'PCF8591: Read Joystick on I2C address %m.i2c_address with y_pin %m.ain0, x_pin %m.ain1, bt_pin %m.ain2', 'joystick_read_pcf8591', '0x48', '3', '2', '1'],
             ["r", 'Return Joystick direction', 'joystick_return'],
