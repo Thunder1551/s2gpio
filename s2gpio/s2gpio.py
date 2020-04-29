@@ -28,11 +28,18 @@ from subprocess import call
 
 import sys
 import os
-sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio"))
-import dht11_pigpio
+sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio/modules"))
+import analog_hall
 import bmp_read
-import joystick_PS2_python3
-import i2c_lcd1602_write
+import dht11
+import flame
+import joystick_ps2
+import lcd1602_i2c
+import photoresistor
+import rain
+import sound
+import thermistor
+
 
 import pigpio
 import psutil
@@ -157,16 +164,31 @@ class S2Gpio(WebSocket):
         # when a user wishes to outout a DHT11 sensor value
         elif client_cmd == 'temperature':
             pin = int(payload['pin'])
-            temp, hum = dht11_pigpio.read(pin)
+            temp, hum = dht11.read(pin)
             payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
           #  print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
         
-         # when a user wishes to outout a Joystick value
-        elif client_cmd == 'joystick_read':
-            # bool = int(payload['bool'])
-            direction = joystick_PS2_python3.read()
+        # when a user wishes to outout a Joystick value with PCF8591
+        elif client_cmd == 'joystick_read_pcf8591':
+            address = payload['channel']
+            y_pin = int(payload['y_pin'])
+            x_pin = int(payload['x_pin'])
+            bt_pin = int(payload['bt_pin'])
+            direction = joystick_ps2.read_pcf8591(address, y_pin, x_pin, bt_pin)
+            payload = {'report': 'joystick_data', 'direction': str(direction)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)   
+        
+        # when a user wishes to outout a Joystick value with MCP3008
+        elif client_cmd == 'joystick_read_mcp3008':
+            spi_device = int(payload['spi_device'])
+            spi_port = int(payload['spi_port'])
+            y_pin = int(payload['y_pin'])
+            x_pin = int(payload['x_pin'])
+            bt_pin = int(payload['bt_pin'])
+            direction = joystick_ps2.read_mcp3008(spi_device, spi_port, y_pin, x_pin, bt_pin)
             payload = {'report': 'joystick_data', 'direction': str(direction)}
             msg = json.dumps(payload)
             self.sendMessage(msg)    
@@ -175,12 +197,12 @@ class S2Gpio(WebSocket):
         elif client_cmd == 'lcd1602_write':
             message = payload['text']
             line = int(payload['line'])
-            i2c_lcd1602_write.write_message(message, line)  
+            lcd1602_i2c.write_message(message, line)  
             
         # when a user wishes to outout a BMP180 sensor value
         elif client_cmd == 'bmp_read':
             # bool = int(payload['bool'])
-            pressure, altitude = bmp_read.read_sensor()
+            pressure, altitude = bmp.read_sensor()
             payload = {'report': 'bmp_data', 'pressure': str(pressure), 'altitude': str(altitude)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
@@ -190,29 +212,29 @@ class S2Gpio(WebSocket):
             pin = int(payload['pin'])
             adc = payload['adc']
             # TODO: try_statement for function call / check for gas_data equals zero or null
-            gas_data = gas_sensor.read(adc, pin)
+            gas_data = gas.read(adc, pin)
             payload = {'report': 'gas_data', 'gas_data': str(gas_data)}
             #print('callback', payload)
             msg = json.dumps(payload)
             self.sendMessage(msg)
-            
-        # when a user wishes to output a water sensor value
-        elif client_cmd == 'water_sensor':
+
+        # when a user wishes to output a rain sensor value
+        elif client_cmd == 'rain_sensor':
             pin = int(payload['pin'])
             adc = payload['adc']
-            # TODO: try_statement for function call / check for water_data ! 0 and...
-            water_data = water_sensor.read(adc, pin)
-            payload = {'report': 'water_data', 'water_data': str(water_data)}
+            # TODO: try_statement for function call / check for rain_data ! 0 and...
+            rain_data = rain.read(adc, pin)
+            payload = {'report': 'rain_data', 'rain_data': str(rain_data)}
             #print('callback', payload)
             msg = json.dumps(payload)
-            self.sendMessage(msg)
-            
+            self.sendMessage(msg) 
+
         # when a user wishes to output a sound sensor value
         elif client_cmd == 'sound_sensor':
             pin = int(payload['pin'])
             adc = payload['adc']
             # TODO: try_statement for function call / check for sound_data ! 0 and...
-            sound_data = sound_sensor.read(adc, pin)
+            sound_data = sound.read(adc, pin)
             payload = {'report': 'sound_data', 'sound_data': str(sound_data)}
             #print('callback', payload)
             msg = json.dumps(payload)
@@ -223,11 +245,12 @@ class S2Gpio(WebSocket):
             pin = int(payload['pin'])
             adc = payload['adc']
             # TODO: try_statement for function call / check for flame_data ! 0 and...
-            flame_data = flame_sensor.read(adc, pin)
+            flame_data = flame.read(adc, pin)
             payload = {'report': 'flame_data', 'flame_data': str(flame_data)}
             #print('callback', payload)
             msg = json.dumps(payload)
-            self.sendMessage(msg)
+            self.sendMessage(msg)    
+            
             
         elif client_cmd == 'temperature2':
             pin = int(payload['pin'])
@@ -244,6 +267,16 @@ class S2Gpio(WebSocket):
         else:
             print("Unknown command received", client_cmd)
     
+    # call back the dht11 sensor value to scratch
+    
+    #def dht11_callback(self, temp, hum):
+    #    payload = {'report': 'send_temp_data', 'temp': str(temp), 'hum': str(hum)}
+   #     print('callback', payload)
+   #     msg = json.dumps(payload)
+   #     self.sendMessage(msg)
+
+    # call back from pigpio when a digital input value changed
+    # send info back up to scratch
     def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
@@ -291,4 +324,5 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
 
