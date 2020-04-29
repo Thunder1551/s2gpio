@@ -63,8 +63,8 @@
             var reporter = msg['report'];
             if(reporter === 'digital_input_change') {
                 var pin = msg['pin'];
-		temp = 4;
-                digital_inputs[parseInt(pin)] = msg['level']
+		            temp = 4;
+                digital_inputs[parseInt(pin)] = msg['level'];
             }
             if(reporter === 'digital_input_change2') {
                 var pin = msg['pin'];
@@ -73,39 +73,39 @@
             if(reporter === 'digital_input_change3') {
                 var pin = msg['pin'];
                 temp = parseInt(pin);
-		hum = 5;
+		            hum = 5;
             }
-	    if(reporter === 'write_return') {
-        	//var pin = msg['pin'];
-		//var temporary = msg['level'];
+	          if(reporter === 'write_return') {
+        	      //var pin = msg['pin'];
+		            //var temporary = msg['level'];
                 //temp = 4;
-        	var tempo = msg['pin'];
-        	var humtemp = msg['level'];        
-		temp = parseInt(tempo);
-		hum = parseInt(humtemp);
+          	    var tempo = msg['pin'];
+        	      var humtemp = msg['level'];        
+		            temp = parseInt(tempo);
+		            hum = parseInt(humtemp);
             }       
-	    if(reporter === 'temp_data') {
-	        var temperature = msg['temp'];
-	        temp = parseInt(temperature);
-	    }
-	    if(reporter === 'joystick_data') {
-		var temp_direction = msg['direction'];
-		direction = temp_direction;
-	    }
+	          if(reporter === 'temp_data') {
+	              var temperature = msg['temp'];
+	              temp = parseInt(temperature);
+	          }
+	          if(reporter === 'joystick_data') {
+		            var temp_direction = msg['direction'];
+		            direction = temp_direction;
+	          }
             if(reporter === 'bmp_data') {
-		var temp_pressure = msg['pressure'];
-		var temp_altitude = msg['altitude'];
-		pressure = parseInt(temp_pressure);
-		altitude = parseInt(temp_altitude);
-	    }
-            console.log(message.data)
+	            	var temp_pressure = msg['pressure'];
+	            	var temp_altitude = msg['altitude'];
+		            pressure = parseInt(temp_pressure);
+		            altitude = parseInt(temp_altitude);
+	          }
+            console.log(message.data);
         };
         window.socket.onclose = function (e) {
             console.log("Connection closed.");
             socket = null;
             connected = false;
             myStatus = 1;
-            myMsg = 'not_ready'
+            myMsg = 'not_ready';
         };
     };
 
@@ -153,37 +153,6 @@
         }
     };
 	
-	// copied digital write block
-    ext.digital_write2 = function (pin, state) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        console.log("digital write2");
-        // validate the pin number for the mode
-        if (validatePin(pin)) {
-            var msg = JSON.stringify({
-                "command": 'digital_write2', 'pin': pin, 'state': state
-            });
-            console.log(msg);
-            window.socket.send(msg);
-        }
-    };
-	// call websever to return pin number    
-    ext.write = function (pin, state) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        console.log("write");
-        // validate the pin number for the mode
-        if (validatePin(pin)) {
-            var msg = JSON.stringify({
-                "command": 'write', 'pin': pin, 'state': state
-            });
-            console.log(msg);
-            window.socket.send(msg);
-        }
-    };
-
 
     // when the PWM block is executed
     ext.analog_write = function (pin, value) {
@@ -261,7 +230,7 @@
             alert("Server Not Connected");
         }
         else {
-                return digital_inputs[parseInt(pin)]
+                return digital_inputs[parseInt(pin)];
 
         }
     };
@@ -272,7 +241,7 @@
             alert("Server Not Connected");
         }
         else {
-                return digital_inputs[parseInt(pin)]
+            return digital_inputs[parseInt(pin)];
 
         }
     };
@@ -290,9 +259,6 @@
             });
             console.log(msg);
             //window.socket.send(msg);
-	    window.setTimeout(function() {
-            callback();
-        }, 1000);
             return temp;
         }
     };	
@@ -310,30 +276,12 @@
             });
             console.log(msg);
             //window.socket.send(msg);
-	    window.setTimeout(function() {
-            callback();
-        }, 1000);
             return hum;
         }
     };
 	
-	ext.temp_command = function (pin) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        console.log("temp command");
-        //validate the pin number for the mode
-        if (validatePin(pin)){
-            var msg = JSON.stringify({
-                "command": 'temperature', 'pin': pin
-            });
-            console.log(msg);
-            window.socket.send(msg);
-	    
-        }
-    };	
 	
-	// when the DHT11 sensor value read reporter block is executed
+    // when the DHT11 sensor value read reporter block is executed
     ext.dht11read = function (pin, callback) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -346,16 +294,15 @@
             });
             console.log(msg);
             window.socket.send(msg);
-	//    window.setTimeout(function() {
-        //    callback();
-        //}, 2000);
         }
     };	
-		// when the DHT11 sensor value read reporter block is executed
+  
+    // when the DHT11 sensor value read reporter block is executed
     ext.dht11return = function () {
-        return temp
+        return temp;
     };	
-		// when the Joystick read reporter block is executed
+  
+    // when the Joystick read reporter block is executed
     ext.joystick = function () {
         if (connected == false) {
             alert("Server Not Connected");
@@ -366,7 +313,6 @@
         });
         console.log(msg);
         window.socket.send(msg);
-        }
     };	
 	
     // when the LCD1602 Block is executed
@@ -377,12 +323,12 @@
         console.log("write to lcd1602 display");
         //validate the pin number for the mode
         if (bool === 'No'){
-	    alert("Please check if Display is connected via channel 0x27");
-	}
-	else if (text === 'TEXT'){
-		alert("Please input your Text to display");
-	}
-	else {
+	          alert("Please check if Display is connected via channel 0x27");
+	      }
+	      else if (text === 'TEXT'){
+		        alert("Please input your Text to display");
+	      }
+        else {
             var msg = JSON.stringify({
                 "command": "lcd1602_write", 'text': text, 'line': line
             });
@@ -391,7 +337,7 @@
         }
     };
 	
-	// when the BMP180 sensor value read reporter block is executed
+	  // when the BMP180 sensor value read reporter block is executed
     ext.bmp180read = function (bool) {
         if (connected == false) {
             alert("Server Not Connected");
@@ -399,9 +345,9 @@
         console.log("bmp180 read");
         //validate the pin number for the mode
         if (bool === 'No'){
-	    alert("Please check if BMP sensor is connected via channel 0x77");
-	}
-	else {
+	          alert("Please check if BMP sensor is connected via channel 0x77");
+	      }
+	      else {
             var msg = JSON.stringify({
                 "command": "bmp_read", 'bool': bool
             });
@@ -410,7 +356,7 @@
         }
     };	
 	
-	// return the BMP180 sensor value
+	  // return the BMP180 sensor value
     ext.bmp180return = function () {
         return pressure;
     };	
@@ -418,16 +364,16 @@
     // general block to return a value of a chosen sensor model
     ext.sensor_return = function (model) {
         if (model === 'MODEL') {
-		alert("Choose a sensor model.");
+		        alert("Choose a sensor model.");
         }
         else if (model === 'bmp180') {
-		return pressure;
+		        return pressure;
         }
         else if (model === 'dht11') {
-		return temp;
+		        return temp;
         }
         else if (model === 'joystick') {
-		return direction;
+		        return direction;
         }
     };	
 	
@@ -455,23 +401,20 @@
             ["w", 'Connect to s2gpio server.', 'cnct'],
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
-		[" ", "Set variable temp to 4 %m.high_low", "digital_write2", "PIN", "0"],
-		[" ", "Set variable hum to input pin BCM %n %m.high_low", "write", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
-			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
+            [" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
-	    ["r", "Read Analog Pin %n", "analog_read", "PIN"],
-	    ["r", 'return variable temp %n', 'temperature', 'PIN'],
-		["r", 'return variable hum %n', 'humidity', 'PIN'],
-	    [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
+            ["r", "Read Analog Pin %n", "analog_read", "PIN"],
+            ["r", 'return variable temp %n', 'temperature', 'PIN'],
+            ["r", 'return variable hum %n', 'humidity', 'PIN'],
+            [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
-		[" ", 'Read Joystick', 'joystick'],
-		[" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
-	        ["r", "Return BMP180 sensor value", "bmp180return"],
-		[" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-		[" ", "send command %n", "temp_command", "PIN"],
-		["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
+            [" ", 'Read Joystick', 'joystick'],
+            [" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
+            ["r", "Return BMP180 sensor value", "bmp180return"],
+            [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
+            ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
 
         ],
         "menus": {
