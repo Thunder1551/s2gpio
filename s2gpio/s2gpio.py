@@ -137,16 +137,21 @@ class S2Gpio(WebSocket):
         elif client_cmd == 'lcd1602_write':
             message = payload['text']
             line = int(payload['line'])
-            i2c_lcd1602_write.write_message(message, line)  
-            
+            try:
+                i2c_lcd1602_write.write_message(message, line)  
+            except OSError:
+                print("Display not connected", client_cmd)
+        
         # when a user wishes to outout a BMP180 sensor value
         elif client_cmd == 'bmp_read':
             # bool = int(payload['bool'])
-            pressure, altitude = bmp_read.read_sensor()
-            payload = {'report': 'bmp_data', 'pressure': str(pressure), 'altitude': str(altitude)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)    
-            
+            try:
+                pressure, altitude = bmp_read.read_sensor()
+                payload = {'report': 'bmp_data', 'pressure': str(pressure), 'altitude': str(altitude)}
+                msg = json.dumps(payload)
+                self.sendMessage(msg)    
+            except OSError:
+                print("bmp sensor not connected", client_cmd)
             
         elif client_cmd == 'ready':
             pass
