@@ -281,8 +281,8 @@
         //validate the pin number for the mode
         if (bool === 'No'){
             alert("Please check if Joystick is connected via channel 0x77");
-        }
-        else {
+    }
+    else {
             var msg = JSON.stringify({
                 "command": "joystick_read", 'bool': bool
             });
@@ -301,11 +301,11 @@
         //validate the pin number for the mode
         if (bool === 'No'){
             alert("Please check if Display is connected via channel 0x27");
-        }
-        else if (text === 'TEXT'){
-            alert("Please input your Text to display");
-        }
-        else {
+    }
+    else if (text === 'TEXT'){
+        alert("Please input your Text to display");
+    }
+    else {
             var msg = JSON.stringify({
                 "command": "lcd1602_write", 'text': text, 'line': line
             });
@@ -322,9 +322,9 @@
         console.log("bmp180 read");
         //validate the pin number for the mode
         if (bool === 'No'){
-            alert("Please check if BMP sensor is connected via channel 0x77");
-        }
-        else {
+        alert("Please check if BMP sensor is connected via channel 0x77");
+    }
+    else {
             var msg = JSON.stringify({
                 "command": "bmp_read", 'bool': bool
             });
@@ -352,19 +352,6 @@
         else if (model === 'joystick') {
             return direction;
         }
-    };
-    
-    // when the Joystick read reporter block is executed
-    ext.joystick_read_pcf8591 = function (channel, y_pin, x_pin, bt_pin) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        console.log("Joystick (PCF8591) read");
-        var msg = JSON.stringify({
-            "command": 'joystick_read_pcf8591', 'channel': channel, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
-        });
-        console.log(msg);
-        window.socket.send(msg);
     };
 
     // general function to validate the pin value
@@ -401,7 +388,6 @@
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
             ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
-            //[" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "0x48", "3", "2", "1"]
 
             
 
@@ -410,10 +396,6 @@
             "high_low": ["0", "1"],
             "yes_no": ["No", "Yes"],
             "adc": ["PCF8591", "MCP3008"],
-            //"channel": ["0x48", "0x77"],
-            //"pcf_ai0": ["0", "1", "2", "3"],
-            //pcf_ai1": ["0", "1", "2", "3"],
-            //pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
             "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Water"]
