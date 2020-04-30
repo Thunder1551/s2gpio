@@ -29,9 +29,8 @@ import dht11_pigpio
 import bmp_read
 import joystick_PS2_python3
 import i2c_lcd1602_write
-sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio/modules"))
-import joystick_ps2
-import PCF8591
+import modules.joystick_ps2
+import modules.PCF8591
 
 import pigpio
 import psutil
