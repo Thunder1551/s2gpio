@@ -400,8 +400,8 @@
             [" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
-            ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"],
-            [" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "0x48", "3", "2", "1"]
+            ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
+            //[" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "0x48", "3", "2", "1"]
 
             
 
@@ -410,10 +410,10 @@
             "high_low": ["0", "1"],
             "yes_no": ["No", "Yes"],
             "adc": ["PCF8591", "MCP3008"],
-            "channel": ["0x48", "0x77"],
-            "pcf_ai0": ["0", "1", "2", "3"],
-            "pcf_ai1": ["0", "1", "2", "3"],
-            "pcf_ai2": ["0", "1", "2", "3"],
+            //"channel": ["0x48", "0x77"],
+            //"pcf_ai0": ["0", "1", "2", "3"],
+            //pcf_ai1": ["0", "1", "2", "3"],
+            //pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
             "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Water"]
