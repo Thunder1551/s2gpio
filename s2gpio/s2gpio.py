@@ -133,14 +133,28 @@ class S2Gpio(WebSocket):
             msg = json.dumps(payload)
             self.sendMessage(msg)    
         
+        # when a user wishes to outout a Joystick value with PCF8591
+        elif client_cmd == 'joystick_read_pcf8591':
+            address = payload['channel']
+            y_pin = int(payload['y_pin'])
+            x_pin = int(payload['x_pin'])
+            bt_pin = int(payload['bt_pin'])
+            try:
+                direction = joystick_ps2.read_pcf8591(channel, y_pin, x_pin, bt_pin)
+                payload = {'report': 'joystick_data', 'direction': str(direction)}
+                msg = json.dumps(payload)
+                self.sendMessage(msg)
+            except OSError:
+                print("Joystick not connected or wrong channel chosen", client_cmd)
+        
         # when a user wishes to write on the lcd1602 display
         elif client_cmd == 'lcd1602_write':
             message = payload['text']
             line = int(payload['line'])
             try:
-                i2c_lcd1602_write.write_message(message, line)  
+                i2c_lcd1602_write.write_message(str(message), line)  
             except OSError:
-                print("Display not connected", client_cmd)
+                print("Display not connected or wrong channel chosen", client_cmd)
         
         # when a user wishes to outout a BMP180 sensor value
         elif client_cmd == 'bmp_read':
