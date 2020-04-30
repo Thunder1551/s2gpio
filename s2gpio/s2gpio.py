@@ -60,41 +60,7 @@ class S2Gpio(WebSocket):
                 self.pi.write(pin, 0)
             else:
                 self.pi.write(pin, 1)
-        elif client_cmd == 'digital_write2':
-            pin = int(payload['pin'])
-            self.pi.set_mode(pin, pigpio.OUTPUT)
-            state = payload['state']
-            #self.pi.write(pin, 1)
-            #self.pi.set_glitch_filter(pin, 20000)
-            #self.pi.set_mode(pin, pigpio.INPUT)
-            #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
-            number = 5
-            payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
-            if state == '0':
-                self.pi.write(pin, 0)
-            else:
-                self.pi.write(pin, 1)
-        # catching write block and returning pin number to js
-        elif client_cmd == 'write':
-            pin = int(payload['pin'])
-            #self.pi.set_mode(pin, pigpio.OUTPUT)
-            state = payload['state']
-            #self.pi.write(pin, 1)
-            #self.pi.set_glitch_filter(pin, 20000)
-            #self.pi.set_mode(pin, pigpio.INPUT)
-            #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
-            #number = 5
-            tempvar, humvar = dht11_pigpio.read(pin)
-            #payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
-            payload = {'report': 'write_return', 'pin': str(tempvar), 'level': str(humvar)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
-            if state == '0':
-                self.pi.write(pin, 0)
-            else:
-                self.pi.write(pin, 1)
+
         # when a user wishes to set a pwm level for a digital input pin
         elif client_cmd == 'analog_write':
             pin = int(payload['pin'])
@@ -182,39 +148,16 @@ class S2Gpio(WebSocket):
             self.sendMessage(msg)    
             
             
-        elif client_cmd == 'temperature2':
-            pin = int(payload['pin'])
-            #temp, hum = dht11_pigpio.read(pin)
-            #payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
-            #print('callback', payload)
-            #msg = json.dumps(payload)
-            #self.sendMessage(msg)
-            self.pi.set_mode(pin, pigpio.OUTPUT)
-            self.pi.write(pin, 1)
-            
         elif client_cmd == 'ready':
             pass
         else:
             print("Unknown command received", client_cmd)
     
-    # call back the dht11 sensor value to scratch
-    
-    #def dht11_callback(self, temp, hum):
-    #    payload = {'report': 'send_temp_data', 'temp': str(temp), 'hum': str(hum)}
-   #     print('callback', payload)
-   #     msg = json.dumps(payload)
-   #     self.sendMessage(msg)
 
     # call back from pigpio when a digital input value changed
     # send info back up to scratch
     def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
-        print('callback', payload)
-        msg = json.dumps(payload)
-        self.sendMessage(msg)
-        
-    def input_callback2(self, pin, level, tick):
-        payload = {'report': 'digital_write2', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
         msg = json.dumps(payload)
         self.sendMessage(msg)
