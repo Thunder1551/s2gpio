@@ -401,7 +401,7 @@
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
             ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"],
-            [" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "Channel", "y_pin", "x_pin", "bt_pin"]
+            [" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "0x48", "3", "2", "1"]
 
             
 
