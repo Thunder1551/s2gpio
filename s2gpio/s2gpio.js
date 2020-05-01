@@ -83,9 +83,30 @@
                 var temperature = msg['temp'];
                 temp = parseInt(temperature);
             }
-            if(reporter === 'joystick_data') {
+            if(reporter === 'flame_read') {
+                flame_data = msg['flame_data'];
+            }
+            if(reporter === 'gas_read') {
+                gas_data = msg['gas_data'];
+            }
+            if(reporter === 'hall_read') {
+                hall_data = msg['hall_data'];
+            }
+            if(reporter === 'joystick_read') {
                 var temp_direction = msg['direction'];
                 direction = temp_direction;
+            }
+            if(reporter === 'photoresistor_read') {
+                photoresistor_data = msg['photoresistor_data'];
+            }
+            if(reporter === 'rain_read') {
+                rain_data = msg['rain_data'];
+            }
+            if(reporter === 'sound_read') {
+                sound_data = msg['sound_data'];
+            }
+            if(reporter === 'thermistor_read') {
+                thermistor_data = msg['thermistor_data'];
             }
             if(reporter === 'bmp_data') {
                 var temp_pressure = msg['pressure'];
@@ -303,7 +324,7 @@
             return direction;
         }
     };
-    
+   
     // when the LCD1602 Block is executed
     ext.lcd1602 = function (text, line, bool) {
         if (connected == false) {
@@ -401,7 +422,7 @@
         else {
             console.log("Analog sensor read: " + model);
             var msg = JSON.stringify({
-                "command": 'pcf_read', 'a_pin': a_pin
+                "command": 'pcf_read', 'model': model, 'a_pin': a_pin
             });
             console.log(msg);
             window.socket.send(msg);
