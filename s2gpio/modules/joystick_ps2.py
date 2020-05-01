@@ -99,7 +99,7 @@ def read_mcp3008(spiPort, spiDevice, y_pin, x_pin, bt_pin):
     if mcp.read_adc(bt_pin) <= 5:
         i = 5       #Button pressed
 
-    if ADC.read(y_pin) - 125 < 15 and ADC.read(y_pin) - 125 > -15   and ADC.read(x_pin) - 125 < 15 and ADC.read(x_pin) - 125 > -15 and ADC.read(bt_pin) == 255:
+    if mcp.read_adc(y_pin) - 125 < 15 and mcp.read_adc(y_pin) - 125 > -15   and mcp.read_adc(x_pin) - 125 < 15 and mcp.read_adc(x_pin) - 125 > -15 and mcp.read_adc(bt_pin) == 255:
         i = 0
     if state[i] != None and state[i] != status:
         return state[i]
