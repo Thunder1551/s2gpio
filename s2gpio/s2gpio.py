@@ -164,8 +164,10 @@ class S2Gpio(WebSocket):
             y_pin = int(payload['y_pin'])
             x_pin = int(payload['x_pin'])
             bt_pin = int(payload['bt_pin'])
-            direction = joystick_i2c.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
+            direction = joystick_ps2.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
             payload = {'report': 'joystick_read', 'joystick_data': str(direction)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
         
         # when a user wants to read an analog sensor value with PCF8591 module
         elif client_cmd == 'pcf_read':
@@ -179,9 +181,6 @@ class S2Gpio(WebSocket):
             elif model == 'Hall':
                 sensor_value = analog_hall.read_pcf8591(0x48, pin)
                 payload = {'report': 'hall_read', 'hall_data': str(sensor_value)}
-            elif model == 'Gas':
-                sensor_value = joystick_ps2.read_pcf8591(0x48, pin)
-                payload = {'report': 'joystick_read', 'joystick_data': str(sensor_value)}
             elif model == 'Photoresistor':
                 sensor_value = photoresistor.read_pcf8591(0x48, pin)
                 payload = {'report': 'photoresistor_read', 'photoresistor_data': str(sensor_value)}
@@ -246,5 +245,6 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
 
 
