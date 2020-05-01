@@ -2,7 +2,9 @@
 
 """
 s2gpio.py
+
  Copyright (c) 2016-2018 Alan Yorinks All right reserved.
+
  Python Banyan is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
  Version 3 as published by the Free Software Foundation; either
@@ -11,25 +13,31 @@ s2gpio.py
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  General Public License for more details.
+
  You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
  along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
 """
 import json
 import os
 import sys
+sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio/modules"))
+import analog_hall
+import bmp
+import dht11
+import flame
+import gas
+import joystick_ps2
+import lcd1602_i2c
+import photoresistor
+import rain
+import sound
+import thermistor
+
 import time
 import datetime
 from subprocess import call
-
-import sys
-import os
-sys.path.append(os.path.abspath("/home/pi/s2gpio-master/s2gpio"))
-import dht11_pigpio
-import bmp_read
-import joystick_PS2_python3
-import i2c_lcd1602_write
-
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
@@ -60,7 +68,41 @@ class S2Gpio(WebSocket):
                 self.pi.write(pin, 0)
             else:
                 self.pi.write(pin, 1)
-
+        elif client_cmd == 'digital_write2':
+            pin = int(payload['pin'])
+            self.pi.set_mode(pin, pigpio.OUTPUT)
+            state = payload['state']
+            #self.pi.write(pin, 1)
+            #self.pi.set_glitch_filter(pin, 20000)
+            #self.pi.set_mode(pin, pigpio.INPUT)
+            #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
+            number = 5
+            payload = {'report': 'digital_input_change3', 'pin': str(pin), 'level': str(number)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
+            if state == '0':
+                self.pi.write(pin, 0)
+            else:
+                self.pi.write(pin, 1)
+        # catching write block and returning pin number to js
+        elif client_cmd == 'write':
+            pin = int(payload['pin'])
+            #self.pi.set_mode(pin, pigpio.OUTPUT)
+            state = payload['state']
+            #self.pi.write(pin, 1)
+            #self.pi.set_glitch_filter(pin, 20000)
+            #self.pi.set_mode(pin, pigpio.INPUT)
+            #self.pi.callback(pin, pigpio.EITHER_EDGE, self.input_callback2)
+            #number = 5
+            tempvar, humvar = dht11_pigpio.read(pin)
+            #payload = {'report': 'write_return', 'pin': str(pin), 'level': str(number)}
+            payload = {'report': 'write_return', 'pin': str(tempvar), 'level': str(humvar)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
+            if state == '0':
+                self.pi.write(pin, 0)
+            else:
+                self.pi.write(pin, 1)
         # when a user wishes to set a pwm level for a digital input pin
         elif client_cmd == 'analog_write':
             pin = int(payload['pin'])
@@ -116,48 +158,49 @@ class S2Gpio(WebSocket):
                 time.sleep(1)
                 self.pi.wave_tx_stop()
                 self.pi.wave_delete(wid)
-        # when a user wishes to outout a DHT11 sensor value
-        elif client_cmd == 'temperature':
+        
+        # when a user wants to read a PS2 Joystck with PCF8591 module
+        elif client_cmd == 'joystick_read_pcf8591':
+            y_pin = int(payload['y_pin'])
+            x_pin = int(payload['x_pin'])
+            bt_pin = int(payload['bt_pin'])
+            direction = joystick_i2c.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
+            payload = {'report': 'joystick_read', 'joystick_data': str(direction)}
+        
+        # when a user wants to read an analog sensor value with PCF8591 module
+        elif client_cmd == 'pcf_read':
             pin = int(payload['pin'])
-            temp, hum = dht11_pigpio.read(pin)
-            payload = {'report': 'temp_data', 'temp': str(temp), 'hum': str(hum)}
-          #  print('callback', payload)
+            if model == 'Flame':
+                sensor_value = flame.read_pcf8591(0x48, pin)
+                payload = {'report': 'flame_read', 'flame_data': str(sensor_value)}
+            elif model == 'Gas':
+                sensor_value = gas.read_pcf8591(0x48, pin)
+                payload = {'report': 'gas_read', 'gas_data': str(sensor_value)}
+            elif model == 'Hall':
+                sensor_value = analog_hall.read_pcf8591(0x48, pin)
+                payload = {'report': 'hall_read', 'hall_data': str(sensor_value)}
+            elif model == 'Gas':
+                sensor_value = joystick_ps2.read_pcf8591(0x48, pin)
+                payload = {'report': 'joystick_read', 'joystick_data': str(sensor_value)}
+            elif model == 'Photoresistor':
+                sensor_value = photoresistor.read_pcf8591(0x48, pin)
+                payload = {'report': 'photoresistor_read', 'photoresistor_data': str(sensor_value)}
+            elif model == 'Rain':
+                sensor_value = rain.read_pcf8591(0x48, pin)
+                payload = {'report': 'rain_read', 'rain_data': str(sensor_value)}
+            elif model == 'Sound':
+                sensor_value = sound.read_pcf8591(0x48, pin)
+                payload = {'report': 'sound_read', 'sound_data': str(sensor_value)}
+            elif model == 'Thermistor':
+                sensor_value = gas.read_pcf8591(0x48, pin)
+                payload = {'report': 'thermistor_read', 'thermistor_data': str(sensor_value)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
-        
-         # when a user wishes to outout a Joystick value
-        elif client_cmd == 'joystick_read':
-            # bool = int(payload['bool'])
-            direction = joystick_PS2_python3.read()
-            payload = {'report': 'joystick_data', 'direction': str(direction)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)    
-        
-        # when a user wishes to write on the lcd1602 display
-        elif client_cmd == 'lcd1602_write':
-            message = payload['text']
-            line = int(payload['line'])
-            try:
-                i2c_lcd1602_write.write_message(message, line)  
-            except OSError:
-                print("Display not connected", client_cmd)
-        
-        # when a user wishes to outout a BMP180 sensor value
-        elif client_cmd == 'bmp_read':
-            # bool = int(payload['bool'])
-            try:
-                pressure, altitude = bmp_read.read_sensor()
-                payload = {'report': 'bmp_data', 'pressure': str(pressure), 'altitude': str(altitude)}
-                msg = json.dumps(payload)
-                self.sendMessage(msg)    
-            except OSError:
-                print("bmp sensor not connected", client_cmd)
             
         elif client_cmd == 'ready':
             pass
         else:
             print("Unknown command received", client_cmd)
-    
 
     # call back from pigpio when a digital input value changed
     # send info back up to scratch
@@ -166,6 +209,7 @@ class S2Gpio(WebSocket):
         print('callback', payload)
         msg = json.dumps(payload)
         self.sendMessage(msg)
+        
 
     def handleConnected(self):
         self.pi = pigpio.pi()
@@ -202,3 +246,5 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
+
