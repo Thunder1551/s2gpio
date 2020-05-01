@@ -470,7 +470,7 @@
             "pcf_ai1": ["0", "1", "2", "3"],
             "pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
-            "sensor_model": ["BMP180", "DHT11", "Flame_Sensor", "Gas_Sensor", "Hall_Sensor", "Joystick", "Photoresistor", "Rain_Sensor", "Sound_Sensor", "Thermistor"],
+            "sensor_model": ["BMP180", "DHT11", "Flame", "Gas", "Hall", "Joystick", "Photoresistor", "Rain", "Sound", "Thermistor"],
             "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"]
 
         },
