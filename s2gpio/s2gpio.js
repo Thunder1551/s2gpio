@@ -14,6 +14,18 @@
     var pressure = 10;
     var altitude = 12;
     var direction = 'undefined';
+  
+    var bmp180_data = 0;
+    var dht11_data = 0;
+  
+    var flame_data = 0;
+    var gas_data = 0;
+    var hall_data = 0;
+    var joystick_data = 0;
+    var photoresistor_data = 0;
+    var sound_data = 0;
+    var thermistor_data = 0;
+    var rain_data = 0;
 
     ext.cnct = function (callback) {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
@@ -343,14 +355,35 @@
         if (model === 'MODEL') {
             alert("Choose a sensor model.");
         }
-        else if (model === 'bmp180') {
-            return pressure;
+        else if (model === 'BMP180') {
+            return bmp180_data;
         }
-        else if (model === 'dht11') {
-            return temp;
+        else if (model === 'DHT11') {
+            return dht11_data;
         }
-        else if (model === 'joystick') {
-            return direction;
+        else if (model === 'Flame') {
+            return flame_data;
+        }
+        else if (model === 'Gas') {
+            return gas_data;
+        }
+        else if (model === 'Hall') {
+            return hall_data;
+        }
+        else if (model === 'Joystick') {
+            return joystick_data;
+        }
+        else if (model === 'Photoresistor') {
+            return photoresistor_data;
+        }
+        else if (model === 'Sound') {
+            return sound_data;
+        }
+        else if (model === 'Thermistor') {
+            return thermistor_data;
+        }
+        else if (model === 'Rain') {
+            return rain_data;
         }
     };
 
@@ -363,14 +396,16 @@
             alert("Choose a sensor model");
         }
         else if (a_pin == 'PIN') {
-            alert("Choose an input pin")
+            alert("Choose an input pin");
         }
-        console.log("Joystick (PCF8591) read");
-        var msg = JSON.stringify({
-            "command": 'pcf_read', 'a_pin': a_pin
-        });
-        console.log(msg);
-        window.socket.send(msg);
+        else {
+            console.log("Analog sensor read: " + model);
+            var msg = JSON.stringify({
+                "command": 'pcf_read', 'a_pin': a_pin
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
     };
   
     // when the Joystick read reporter block is executed
@@ -436,7 +471,7 @@
             "pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
-            "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Sound", "Water"]
+            "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
