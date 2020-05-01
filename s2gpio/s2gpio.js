@@ -244,7 +244,7 @@
             alert("Server Not Connected");
         }
         else {
-            return digital_inputs[parseInt(pin)]
+            return digital_inputs[parseInt(pin)];
 
         }
     };
@@ -353,7 +353,26 @@
             return direction;
         }
     };
-    
+
+    // when the Joystick read reporter block is executed
+    ext.pcf_read = function (model, a_pin) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else if (model == 'MODEL') {
+            alert("Choose a sensor model");
+        }
+        else if (a_pin == 'PIN') {
+            alert("Choose an input pin")
+        }
+        console.log("Joystick (PCF8591) read");
+        var msg = JSON.stringify({
+            "command": 'pcf_read', 'a_pin': a_pin
+        });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+  
     // when the Joystick read reporter block is executed
     ext.joystick_read_pcf8591 = function (channel, y_pin, x_pin, bt_pin) {
         if (connected == false) {
@@ -401,6 +420,7 @@
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
             ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"],
+            [" ", "PCF8591: Read %m.analog_sensor at %m.pcf_ai0", "pcf_read", "MODEL", "PIN"],
             [" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "Channel", "y_pin", "x_pin", "bt_pin"]
 
             
@@ -416,7 +436,7 @@
             "pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "sensor_model": ["MODEL", "bmp180", "dht11", "joystick"],
-            "analog_sensor": ["MODEL", "Flame", "Gas", "Sound", "Water"]
+            "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Sound", "Water"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
