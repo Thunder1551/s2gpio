@@ -160,6 +160,13 @@ class S2Gpio(WebSocket):
                 self.pi.wave_delete(wid)
         
         # when a user wants to read a PS2 Joystck with PCF8591 module
+        elif client_cmd == 'joystick_read':
+            #direction = joystick_ps2.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
+            payload = {'report': 'joystick_read', 'joystick_data': str(1)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
+        
+        # when a user wants to read a PS2 Joystck with PCF8591 module
         elif client_cmd == 'joystick_read_pcf8591':
             y_pin = int(payload['y_pin'])
             x_pin = int(payload['x_pin'])
@@ -245,6 +252,7 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
 
 
 
