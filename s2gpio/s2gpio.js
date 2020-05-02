@@ -292,7 +292,7 @@
         //validate the pin number for the mode
         if (validatePin(pin)){
             var msg = JSON.stringify({
-                "command": "temperature", 'pin': pin
+                "command": "joystick_read", 'pin': pin
             });
             console.log(msg);
             window.socket.send(msg);
