@@ -94,7 +94,7 @@
             }
             if(reporter === 'joystick_read') {
                 var temp_direction = msg['direction'];
-                direction = temp_direction;
+                joystick_data = temp_direction;
             }
             if(reporter === 'photoresistor_read') {
                 photoresistor_data = msg['photoresistor_data'];
