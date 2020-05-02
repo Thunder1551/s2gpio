@@ -312,17 +312,13 @@
         }
         console.log("Joystick read");
         //validate the pin number for the mode
-        if (bool === 'No'){
-            alert("Please check if Joystick is connected via channel 0x77");
-        }
-        else {
-            var msg = JSON.stringify({
-                "command": "joystick_read"
-            });
-            console.log(msg);
-            window.socket.send(msg);
-            return direction;
-        }
+        var msg = JSON.stringify({
+            "command": "joystick_read"
+        });
+        console.log(msg);
+        window.socket.send(msg);
+        return direction;
+        
     };
    
     // when the LCD1602 Block is executed
