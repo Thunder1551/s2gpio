@@ -93,8 +93,7 @@
                 hall_data = msg['hall_data'];
             }
             if(reporter === 'joystick_read') {
-                var temp_direction = msg['joystick_data'];
-                joystick_data = temp_direction;
+                joystick_data = msg['joystick_data'];
             }
             if(reporter === 'photoresistor_read') {
                 photoresistor_data = msg['photoresistor_data'];
