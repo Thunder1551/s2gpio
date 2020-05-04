@@ -159,6 +159,19 @@ class S2Gpio(WebSocket):
                 self.pi.wave_tx_stop()
                 self.pi.wave_delete(wid)
         
+        # when a user wants to read a sensor module connect to i2c
+        elif client_cmd == 'i2c_read':
+            sensor = payload['sensor_model'])
+            channel = payload['channel']
+            if sensor == 'BMP180':
+                try:
+                    pressure, altitude = bmp.read_sensor()
+                    payload = {'report': 'joystick_read', 'bmp_pressure': str(pressure), 'bmp_altitude': str(altitude)}
+                    msg = json.dumps(payload)
+                    self.sendMessage(msg)
+                except OSError:
+                    print("Not connected or wrong channel")
+        
         # when a user wants to read a PS2 Joystck with PCF8591 module
         elif client_cmd == 'joystick_read':
             #direction = joystick_ps2.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
