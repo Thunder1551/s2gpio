@@ -316,7 +316,6 @@
         });
         console.log(msg);
         window.socket.send(msg);
-        return direction;
         
     };
    
@@ -429,12 +428,14 @@
         if (connected == false) {
             alert("Server Not Connected");
         }
-        console.log("Joystick (PCF8591) read");
+        console.log("Joystick read pcf8591");
+        //validate the pin number for the mode
         var msg = JSON.stringify({
-            "command": 'joystick_read_pcf8591', 'channel': channel, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
+            "command": "joystick_read_pcf8591", 'channel': channel, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
         });
         console.log(msg);
         window.socket.send(msg);
+        return direction;
     };
 
     // general function to validate the pin value
