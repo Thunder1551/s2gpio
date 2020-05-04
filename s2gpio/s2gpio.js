@@ -13,7 +13,6 @@
 
     var pressure = 10;
     var altitude = 12;
-    var direction = 'undefined';
   
     var bmp180_data = 0;
     var dht11_data = 0;
@@ -430,12 +429,15 @@
         }
         console.log("Joystick read pcf8591");
         //validate the pin number for the mode
-        var msg = JSON.stringify({
-            "command": "joystick_read_pcf8591", 'channel': channel, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
-        });
-        console.log(msg);
-        window.socket.send(msg);
-        return direction;
+        else if (channel == 'Channel' || y_pin == 'y_pin' || x_pin == x_pin || bt_pin == 'bt_pin') {
+            alert("Check the input pin declaration");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": "joystick_read_pcf8591", 'channel': channel, 'y_pin': y_pin, 'x_pin': x_pin, 'bt_pin': bt_pin
+            });
+            console.log(msg);
+            window.socket.send(msg);
     };
 
     // general function to validate the pin value
