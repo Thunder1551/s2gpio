@@ -19,7 +19,7 @@ def read_PCF8591(channel,analogInput):
         except ValueError:
             print("math domain error")
         if (temp != 0 and temp != 255):
-           return temp
+           return round(temp,2)
 
 # still calculating wrong value
 def read_MCP3008(spiPort, spiDevice, analogInput):
@@ -35,7 +35,7 @@ def read_MCP3008(spiPort, spiDevice, analogInput):
         except ValueError:
             print("math domain error")
         if (temp != 0 and temp != 1023):
-           return temp
+           return round(temp,2)
 
 if __name__ == '__main__':
     # For testing the sensor at default channel i2C 0x48 and input pin AIN2
