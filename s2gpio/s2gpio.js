@@ -312,7 +312,7 @@
         console.log("Joystick read");
         //validate the pin number for the mode
         var msg = JSON.stringify({
-            "command": "joystick_read", 'pin': 1
+            "command": "joystick_read"
         });
         console.log(msg);
         window.socket.send(msg);
