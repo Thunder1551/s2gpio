@@ -7,7 +7,7 @@ import Adafruit_MCP3008
 
 # Method that is called by s2gpio to get the rain probability using PCF8591 module
 # returns a relative perventage value between 0 (no rain) and 1 (rain)
-def read_pcf8591(channel,analogInput):
+def read_PCF8591(channel,analogInput):
     ADC.setup(channel)
     value = 0;
     runs = 5;
@@ -22,7 +22,7 @@ def read_pcf8591(channel,analogInput):
 
 # Method that is called by s2gpio to get the sound level using MCP3008 module
 # returns a relative perventage value between 0 (no sound) and 1 (sound)
-def read_mcp3008(spiPort, spiDevice, analogInput):
+def read_MCP3008(spiPort, spiDevice, analogInput):
     mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(spiPort, spiDevice))
     value = 0;
     runs = 5;
@@ -37,8 +37,8 @@ def read_mcp3008(spiPort, spiDevice, analogInput):
 
 if __name__ == '__main__':
     # Test the sensor at default channel 0x48 and input pin AIN2
-    pcfValue = read_pcf8591(0x48,2);
+    pcfValue = read_PCF8591(0x48,2);
     print(pcfValue)
     # Test the sensor at SPI port 0, device 0, AIN0
-    mcpValue = read_mcp3008(0,0,0);
+    mcpValue = read_MCP3008(0,0,0);
     print(mcpValue)

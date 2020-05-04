@@ -164,7 +164,7 @@ if __name__ == '__main__':
         time.sleep(1)
     sensor.close()
 """    
-def read(pin):
+def read_sensor(pin):
     pi = pigpio.pi()
     sensor = DHT11(pi, pin)
     for d in sensor:
@@ -174,6 +174,6 @@ def read(pin):
 
 
 if __name__ == '__main__':
-    temp, hum = read(17)
+    temp, hum = read_sensor(17)
     print (temp, hum)
     

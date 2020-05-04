@@ -5,7 +5,7 @@ import time
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
-def read_pcf8591(channel,analogInput):
+def read_PCF8591(channel,analogInput):
     ADC.setup(channel)
     value = 0;
     runs = 5;
@@ -20,7 +20,7 @@ def read_pcf8591(channel,analogInput):
     return percentage;
 
 
-def read_mcp3008(spiPort, spiDevice, analogInput):
+def read_MCP3008(spiPort, spiDevice, analogInput):
     mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(spiPort, spiDevice))
     value = 0;
     runs = 5;
@@ -36,9 +36,9 @@ def read_mcp3008(spiPort, spiDevice, analogInput):
 
 if __name__ == '__main__':
     # For testing the sensor at default channel i2C 0x48 and input pin AIN3
-    pcfValue = read_pcf8591(0x48,3);
+    pcfValue = read_PCF8591(0x48,3);
     print(pcfValue)
     # For testin the sensor at SPI port 0, device 0, AIN4
-    mcpValue = read_mcp3008(0,0,4);
+    mcpValue = read_MCP3008(0,0,4);
     print(mcpValue) 
 
