@@ -428,7 +428,7 @@
             alert("Server Not Connected");
         }
         //validate input pins and i2c channel
-        else if (channel === 'Channel' || y_pin === 'y_pin' || x_pin === x_pin || bt_pin === 'bt_pin') {
+        else if (channel === 'Channel' || y_pin === 'y_pin' || x_pin === 'x_pin' || bt_pin === 'bt_pin') {
             alert("Check the input pin declaration");
         }
         else {
