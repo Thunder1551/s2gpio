@@ -179,27 +179,28 @@ class S2Gpio(WebSocket):
         
         # when a user wants to read an analog sensor value with PCF8591 module
         elif client_cmd == 'pcf_read':
-            pin = int(payload['pin'])
+            pin = int(payload['a_pin'])
+            model = payload['model']
             if model == 'Flame':
-                sensor_value = flame.read_pcf8591(0x48, pin)
+                sensor_value = flame.read_PCF8591(0x48, pin)
                 payload = {'report': 'flame_read', 'flame_data': str(sensor_value)}
             elif model == 'Gas':
-                sensor_value = gas.read_pcf8591(0x48, pin)
+                sensor_value = gas.read_PCF8591(0x48, pin)
                 payload = {'report': 'gas_read', 'gas_data': str(sensor_value)}
             elif model == 'Hall':
-                sensor_value = analog_hall.read_pcf8591(0x48, pin)
+                sensor_value = analog_hall.read_PCF8591(0x48, pin)
                 payload = {'report': 'hall_read', 'hall_data': str(sensor_value)}
             elif model == 'Photoresistor':
-                sensor_value = photoresistor.read_pcf8591(0x48, pin)
+                sensor_value = photoresistor.read_PCF8591(0x48, pin)
                 payload = {'report': 'photoresistor_read', 'photoresistor_data': str(sensor_value)}
             elif model == 'Rain':
-                sensor_value = rain.read_pcf8591(0x48, pin)
+                sensor_value = rain.read_PCF8591(0x48, pin)
                 payload = {'report': 'rain_read', 'rain_data': str(sensor_value)}
             elif model == 'Sound':
-                sensor_value = sound.read_pcf8591(0x48, pin)
+                sensor_value = sound.read_PCF8591(0x48, pin)
                 payload = {'report': 'sound_read', 'sound_data': str(sensor_value)}
             elif model == 'Thermistor':
-                sensor_value = gas.read_pcf8591(0x48, pin)
+                sensor_value = gas.read_PCF8591(0x48, pin)
                 payload = {'report': 'thermistor_read', 'thermistor_data': str(sensor_value)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
