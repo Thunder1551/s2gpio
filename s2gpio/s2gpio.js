@@ -11,10 +11,8 @@
     var temp = 2;
     var hum = 3;
 
-    var pressure = 10;
-    var altitude = 12;
-  
-    var bmp180_data = 0;
+    var bmp_pressure = 0;
+    var bmp_altitude = 0;
     var dht11_data = 0;
   
     var flame_data = 0;
@@ -107,10 +105,8 @@
                 thermistor_data = msg['thermistor_data'];
             }
             if(reporter === 'bmp_data') {
-                var temp_pressure = msg['pressure'];
-                var temp_altitude = msg['altitude'];
-                pressure = parseInt(temp_pressure);
-                altitude = parseInt(temp_altitude);
+                bmp_pressure = msg['bmp_pressure'];
+                bmp_altitude = msg['bmp_altitude'];
             }
             console.log(message.data);
         };
@@ -280,6 +276,24 @@
         }
     };
 
+    // when the i2c read block is executed
+    ext.i2c_read = function (model, channel) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        //validate input model and i2c channel
+        else if (channel === 'Channel' || model === 'MODEL') {
+            alert("Check input of model and channel");
+        }
+        else {
+            console.log("I2C sensor read");
+            var msg = JSON.stringify({
+                "command": "i2c_read", 'model': model, 'channel': channel
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
+    };
   
     // when the DHT11 sensor value read reporter block is executed
     ext.dht11read = function (pin, callback) {
@@ -471,6 +485,7 @@
             [" ", 'Read DHT11 sensor value %n', 'dht11read', 'PIN'],
             ["r", 'Return DHT11 sensor value', 'dht11return'],
             [" ", 'PCF8591: Read Joystick', 'joystick'],
+            [" ", "I2C: Read %m.i2c_sensor sensor on channel %m.channel", "i2c_read", "MODEL", "Channel"]
             [" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
@@ -490,6 +505,7 @@
             "pcf_ai1": ["0", "1", "2", "3"],
             "pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "i2c_sensor": ["BMP180", "DHT11"],
             "sensor_model": ["BMP180", "DHT11", "Flame", "Gas", "Hall", "Joystick", "Photoresistor", "Rain", "Sound", "Thermistor"],
             "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"]
 
