@@ -373,10 +373,6 @@
         }
     };
 
-    // return the BMP180 sensor value
-    ext.bmp180return = function () {
-        return pressure;
-    };
 
     // general block to return a value of a chosen sensor model
     ext.sensor_return = function (model) {
@@ -384,7 +380,7 @@
             alert("Choose a sensor model.");
         }
         else if (model === 'BMP180') {
-            return bmp180_data;
+            return bmp_pressure, bmp_altitude;
         }
         else if (model === 'DHT11') {
             return dht11_data;
@@ -486,7 +482,6 @@
             ["r", 'Return DHT11 sensor value', 'dht11return'],
             [" ", 'PCF8591: Read Joystick', 'joystick'],
             [" ", "I2C: Read %m.i2c_sensor sensor on channel %m.channel", "i2c_read", "MODEL", "Channel"],
-            [" ", "Read sensor value of BMP180 on channel 0x77 %m.yes_no", "bmp180read", "No"],
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
             ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"],
