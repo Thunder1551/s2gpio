@@ -305,7 +305,7 @@
         return temp;
     };
     // when the Joystick read reporter block is executed
-    ext.joystick = function (callback) {
+    ext.joystick = function () {
         if (connected == false) {
             alert("Server Not Connected");
         }
