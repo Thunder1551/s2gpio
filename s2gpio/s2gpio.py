@@ -172,11 +172,14 @@ class S2Gpio(WebSocket):
             y_pin = int(payload['y_pin'])
             x_pin = int(payload['x_pin'])
             bt_pin = int(payload['bt_pin'])
-            direction = joystick_ps2.read_PCF8591(0x48, y_pin, x_pin, bt_pin)
-            payload = {'report': 'joystick_read', 'joystick_data': str(direction)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
-        
+            try:
+                direction = joystick_ps2.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
+                payload = {'report': 'joystick_read', 'joystick_data': str(direction)}
+                msg = json.dumps(payload)
+                self.sendMessage(msg)
+            except OSError:
+                print("Not connected or wrong channel")
+                    
         # when a user wants to read an analog sensor value with PCF8591 module
         elif client_cmd == 'pcf_read':
             pin = int(payload['a_pin'])
