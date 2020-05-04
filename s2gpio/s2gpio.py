@@ -161,7 +161,7 @@ class S2Gpio(WebSocket):
         
         # when a user wants to read a sensor module connect to i2c
         elif client_cmd == 'i2c_read':
-            sensor = payload['sensor_model']
+            sensor = payload['model']
             channel = payload['channel']
             if sensor == 'BMP180':
                 try:
