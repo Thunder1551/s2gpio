@@ -379,8 +379,11 @@
         if (model === 'MODEL') {
             alert("Choose a sensor model.");
         }
-        else if (model === 'BMP180') {
-            return bmp_pressure, bmp_altitude;
+        else if (model === 'BMP180_Pressure') {
+            return bmp_pressure;
+        }
+        else if (model === 'BMP180_Altitude') {
+            return bmp_altitude;
         }
         else if (model === 'DHT11') {
             return dht11_data;
@@ -501,7 +504,7 @@
             "pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "i2c_sensor": ["BMP180", "DHT11"],
-            "sensor_model": ["BMP180", "DHT11", "Flame", "Gas", "Hall", "Joystick", "Photoresistor", "Rain", "Sound", "Thermistor"],
+            "sensor_model": ["BMP180_Altitude", "BMP180_Pressure", "DHT11", "Flame", "Gas", "Hall", "Joystick", "Photoresistor", "Rain", "Sound", "Thermistor"],
             "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"]
 
         },
