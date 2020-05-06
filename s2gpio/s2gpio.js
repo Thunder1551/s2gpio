@@ -80,31 +80,31 @@
                 var temperature = msg['temp'];
                 temp = parseInt(temperature);
             }
-            if(reporter === 'flame_read') {
+            if(reporter === 'flame_return') {
                 flame_data = msg['flame_data'];
             }
-            if(reporter === 'gas_read') {
+            if(reporter === 'gas_return') {
                 gas_data = msg['gas_data'];
             }
-            if(reporter === 'hall_read') {
+            if(reporter === 'hall_return') {
                 hall_data = msg['hall_data'];
             }
-            if(reporter === 'joystick_read') {
+            if(reporter === 'joystick_return') {
                 joystick_data = msg['joystick_data'];
             }
-            if(reporter === 'photoresistor_read') {
+            if(reporter === 'photoresistor_return') {
                 photoresistor_data = msg['photoresistor_data'];
             }
-            if(reporter === 'rain_read') {
+            if(reporter === 'rain_return') {
                 rain_data = msg['rain_data'];
             }
-            if(reporter === 'sound_read') {
+            if(reporter === 'sound_return') {
                 sound_data = msg['sound_data'];
             }
-            if(reporter === 'thermistor_read') {
+            if(reporter === 'thermistor_return') {
                 thermistor_data = msg['thermistor_data'];
             }
-            if(reporter === 'bmp_data') {
+            if(reporter === 'bmp_return') {
                 bmp_pressure = msg['bmp_pressure'];
                 bmp_altitude = msg['bmp_altitude'];
             }
