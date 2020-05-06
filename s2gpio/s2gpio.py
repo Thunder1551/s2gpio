@@ -166,7 +166,7 @@ class S2Gpio(WebSocket):
             if sensor == 'BMP180':
                 try:
                     pressure, altitude = bmp.read_sensor()
-                    payload = {'report': 'joystick_read', 'bmp_pressure': str(pressure), 'bmp_altitude': str(altitude)}
+                    payload = {'report': 'bmp_return', 'bmp_pressure': str(pressure), 'bmp_altitude': str(altitude)}
                     msg = json.dumps(payload)
                     self.sendMessage(msg)
                 except OSError:
@@ -176,7 +176,7 @@ class S2Gpio(WebSocket):
         elif client_cmd == 'joystick_read':
             #direction = joystick_ps2.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
             value = joystick_ps2.read_PCF8591(0x48,3,2,1)
-            payload = {'report': 'joystick_read', 'joystick_data': str(value)}
+            payload = {'report': 'joystick_return', 'joystick_data': str(value)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
         
@@ -187,7 +187,7 @@ class S2Gpio(WebSocket):
             bt_pin = int(payload['bt_pin'])
             try:
                 direction = joystick_ps2.read_PCF8591(0x48, y_pin, x_pin, bt_pin)
-                payload = {'report': 'joystick_read', 'joystick_data': str(direction)}
+                payload = {'report': 'joystick_return', 'joystick_data': str(direction)}
                 msg = json.dumps(payload)
                 self.sendMessage(msg)
             except OSError:
@@ -200,25 +200,25 @@ class S2Gpio(WebSocket):
             try:
                 if model == 'Flame':
                     sensor_value = flame.read_PCF8591(0x48, pin)
-                    payload = {'report': 'flame_read', 'flame_data': str(sensor_value)}
+                    payload = {'report': 'flame_return', 'flame_data': str(sensor_value)}
                 elif model == 'Gas':
                     sensor_value = gas.read_PCF8591(0x48, pin)
-                    payload = {'report': 'gas_read', 'gas_data': str(sensor_value)}
+                    payload = {'report': 'gas_return', 'gas_data': str(sensor_value)}
                 elif model == 'Hall':
                     sensor_value = analog_hall.read_PCF8591(0x48, pin)
-                    payload = {'report': 'hall_read', 'hall_data': str(sensor_value)}
+                    payload = {'report': 'hall_return', 'hall_data': str(sensor_value)}
                 elif model == 'Photoresistor':
                     sensor_value = photoresistor.read_PCF8591(0x48, pin)
-                    payload = {'report': 'photoresistor_read', 'photoresistor_data': str(sensor_value)}
+                    payload = {'report': 'photoresistor_return', 'photoresistor_data': str(sensor_value)}
                 elif model == 'Rain':
                     sensor_value = rain.read_PCF8591(0x48, pin)
-                    payload = {'report': 'rain_read', 'rain_data': str(sensor_value)}
+                    payload = {'report': 'rain_return', 'rain_data': str(sensor_value)}
                 elif model == 'Sound':
                     sensor_value = sound.read_PCF8591(0x48, pin)
-                    payload = {'report': 'sound_read', 'sound_data': str(sensor_value)}
+                    payload = {'report': 'sound_return', 'sound_data': str(sensor_value)}
                 elif model == 'Thermistor':
                     sensor_value = gas.read_PCF8591(0x48, pin)
-                    payload = {'report': 'thermistor_read', 'thermistor_data': str(sensor_value)}
+                    payload = {'report': 'thermistor_return', 'thermistor_data': str(sensor_value)}
                 msg = json.dumps(payload)
                 self.sendMessage(msg)
             except OSError:
