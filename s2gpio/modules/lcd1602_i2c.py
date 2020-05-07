@@ -12,7 +12,7 @@ def initialize(channel):
 def clear():
     LCD1602.clear()
     
-# TODO: Enable different modes
+# Note: messages with more than 40 symbols will use both lines
 def write_single_line_message(message, line, mode, duration):
     # Displays the message on LCD from left to right
     if mode == 'left_to_right':
@@ -20,7 +20,7 @@ def write_single_line_message(message, line, mode, duration):
         for i in range(0, len(mes)):
             LCD1602.write(0, line, mes + empty_display)
             mes = mes[1:]
-            time.sleep(0.5)
+            time.sleep(duration)
             LCD1602.clear()
     # Displays the message for the given duration
     elif mode == 'normal':
@@ -39,15 +39,15 @@ def write_double_line_message(message_line0, message_line1, mode, duration):
         # check for the longer message lenght
         lenght = 0
         if len(message0) < len(message1):
-            lenght = len(message1)
+            length = len(message1) +1
         else:
-            lenght = len(message0)
-        for i in range(0, lenght):
+            length = len(message0)
+        for i in range(0, length):
             LCD1602.write(0, 0, message0 + empty_display)
             LCD1602.write(0, 1, message1 + empty_display)
             message0 = message0[1:]
             message1 = message1[1:]
-            time.sleep(0.5)
+            time.sleep(duration)
             
     # Displays the message for the given duration (Note: 16 symbols)
     elif mode == 'normal':
