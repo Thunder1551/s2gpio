@@ -159,6 +159,44 @@ class S2Gpio(WebSocket):
                 self.pi.wave_tx_stop()
                 self.pi.wave_delete(wid)
         
+        # when a user wants to initialize a LCD1602 display
+        elif client_cmd == 'lcd_initialize':
+            channel = payload['channel']
+            try:
+                lcd1602_i2c.initialize()
+            except OSError:
+                print("lcd_initialize: Display not connected or wrong channel")
+        
+        
+        # when a user wants to clear a LCD1602 display
+        elif client_cmd == 'lcd_clear':
+            try:
+                lcd1602_i2c.clear()
+            except NameError:
+                print("lcd_clear: Display not initialized")
+                
+        # when a user wants to display a single-line message on LCD1602
+        elif client_cmd == 'lcd_single_line':
+            message = payload['message']
+            line = int(payload['line'])
+            mode = payload['mode']
+            duration = int(payload['duration'])
+            try:
+                lcd1602_i2c.write_single_line_message(message, line, mode, duration)
+            except NameError:
+                print("lcd_single_line: Display not initialized")
+                
+        # when a user wants to display a double-line message on LCD1602
+        elif client_cmd == 'lcd_double_line':
+            message0 = payload['message0']
+            message1 = payload['message1']
+            mode = payload['mode']
+            duration = int(payload['duration'])
+            try:
+                lcd1602_i2c.write_double_line_message(message, line, mode, duration)
+            except NameError:
+                print("lcd_double_line: Display not initialized")
+        
         # when a user wants to read a sensor module connect to i2c
         elif client_cmd == 'i2c_read':
             sensor = payload['model']
@@ -273,5 +311,6 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
 
 
