@@ -185,6 +185,8 @@ class S2Gpio(WebSocket):
                 lcd1602_i2c.write_single_line_message(str(message), line, mode, duration)
             except NameError:
                 print("lcd_single_line: Display not initialized")
+            except ValueError:
+                print("lcd_single_line: Input for duration was not an int or float")
                 
         # when a user wants to display a double-line message on LCD1602
         elif client_cmd == 'lcd_double_line':
@@ -196,19 +198,21 @@ class S2Gpio(WebSocket):
                 lcd1602_i2c.write_double_line_message(str(message0), str(message1), mode, duration)
             except NameError:
                 print("lcd_double_line: Display not initialized")
+            except ValueError:
+                print("lcd_double_line: Input for duration was not an int or float")
         
         # when a user wants to read a sensor module connect to i2c
         elif client_cmd == 'i2c_read':
             sensor = payload['model']
             channel = payload['channel']
-            if sensor == 'BMP180':
-                try:
+            try:
+                if sensor == 'BMP180':
                     pressure, altitude = bmp.read_sensor()
                     payload = {'report': 'bmp_return', 'bmp_pressure': str(pressure), 'bmp_altitude': str(altitude)}
                     msg = json.dumps(payload)
                     self.sendMessage(msg)
-                except OSError:
-                    print("Not connected or wrong channel")
+            except OSError:
+                print("I2C_Read: Chosen sensor not connected or wrong channel")
         
         # when a user wants to read a PS2 Joystck with PCF8591 module
         elif client_cmd == 'joystick_read':
@@ -229,7 +233,7 @@ class S2Gpio(WebSocket):
                 msg = json.dumps(payload)
                 self.sendMessage(msg)
             except OSError:
-                print("Not connected or wrong channel")
+                print("Joystick_Read_PCF8591: Not connected or wrong channel")
                     
         # when a user wants to read an analog sensor value with PCF8591 module
         elif client_cmd == 'pcf_read':
@@ -260,7 +264,7 @@ class S2Gpio(WebSocket):
                 msg = json.dumps(payload)
                 self.sendMessage(msg)
             except OSError:
-                print("Not connected or wrong channel")
+                print("PCF_Read: Chosen sensor not connected or wrong channel")
             
         elif client_cmd == 'ready':
             pass
@@ -311,6 +315,7 @@ if __name__ == "__main__":
         run_server()
     except KeyboardInterrupt:
         sys.exit(0)
+
 
 
 
