@@ -16,7 +16,7 @@ def clear():
 def write_single_line_message(message, line, mode, duration):
     # Displays the message on LCD from left to right
     if mode == 'left_to_right':
-        mes = message_beginn + message
+        mes = message_begin + message
         for i in range(0, len(mes)):
             LCD1602.write(0, line, mes + empty_display)
             mes = mes[1:]
