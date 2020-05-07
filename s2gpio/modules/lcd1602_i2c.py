@@ -18,7 +18,7 @@ def write_single_line_message(message, line, mode, duration):
     if mode == 'left_to_right':
         mes = message_beginn + message
         for i in range(0, len(mes)):
-            LCD1602.write(0, line, mes + empty_message)
+            LCD1602.write(0, line, mes + empty_display)
             mes = mes[1:]
             time.sleep(0.5)
             LCD1602.clear()
