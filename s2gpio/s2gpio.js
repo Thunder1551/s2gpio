@@ -353,18 +353,88 @@
             window.socket.send(msg);
         }
     };
+    
+    // When the LCD Initialize Block is executed
+    ext.lcd_initialize = function (channel) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("LCD1602 initialize");
+        // Validate channel
+        if (channel === 'Channel') {
+            alert("Check input channel");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": "lcd_initialize", 'channel': channel
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
+    };
 
-    // when the BMP180 sensor value read reporter block is executed
+    // When the LCD Clear Block is executed
+    ext.lcd_clear = function () {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("LCD1602 clear");
+        var msg = JSON.stringify({
+            "command": "lcd_clear"
+        });
+        console.log(msg);
+        window.socket.send(msg);
+    };
+ 
+    // When the LCD Single Line Display Block is executed
+    ext.lcd_single_line = function (message, line, mode, duration) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("LCD1602 initialize");
+        // Validate complete input
+        if (message === 'Text' || line === 'Line' || mode === 'Mode' || duration === 'Duration') {
+            alert("Check input");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": "lcd_single_line", 'message': message, 'line': line, 'mode': mode, 'duration': duration
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
+    };
+    
+    // When the LCD Double Line Display Block is executed
+    ext.lcd_single_line = function (message0, message1, mode, duration) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("LCD1602 initialize");
+        // Validate complete input
+        if (message0 === 'Text_0' || message1 === 'Text_1' || mode === 'Mode' || duration === 'Duration') {
+            alert("Check input");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": "lcd_double_line", 'message0': message0, 'message1': message1, 'mode': mode, 'duration': duration
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
+    };
+    
+    // when the BMP180 sensor value read block is executed
     ext.bmp180read = function (bool) {
         if (connected == false) {
             alert("Server Not Connected");
         }
         console.log("bmp180 read");
         //validate the pin number for the mode
-        if (bool === 'No'){
+        if (bool === 'No') {
         alert("Please check if BMP sensor is connected via channel 0x77");
-    }
-    else {
+        }
+        else {
             var msg = JSON.stringify({
                 "command": "bmp_read", 'bool': bool
             });
@@ -487,6 +557,10 @@
             [" ", "I2C: Read %m.i2c_sensor sensor on channel %m.channel", "i2c_read", "MODEL", "Channel"],
             ["r", "Return BMP180 sensor value", "bmp180return"],
             [" ", "Write %n on line %m.high_low LCD1602 Display on 0x27 %m.yes_no", "lcd1602", "TEXT", "0", "No"],
+            [" ", "LCD1602: Initialize Display on %m.channel", "lcd_initialize", "Channel"],
+            [" ", "LCD1602: Clear Display", "lcd_clear"],
+            [" ", "LCD1602 Single-Line Display: %n %m.high_low %m.lcd_mode %m.ain", "lcd_single_line", "Text", "Line", "Mode", "Duration"],
+            [" ", "LCD1602 Double-Line Display: %n %n %m.lcd_mode %m.ain", "lcd_double_line", "Text_0", "Text_1", "Mode", "Duration"],
             ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"],
             [" ", "PCF8591: Read %m.analog_sensor at %m.pcf_ai0", "pcf_read", "MODEL", "PIN"],
             [" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "Channel", "y_pin", "x_pin", "bt_pin"]
@@ -498,14 +572,17 @@
             "high_low": ["0", "1"],
             "yes_no": ["No", "Yes"],
             "adc": ["PCF8591", "MCP3008"],
-            "channel": ["0x48", "0x77"],
+            "channel": ["0x27", "0x48", "0x77"],
             "pcf_ai0": ["0", "1", "2", "3"],
             "pcf_ai1": ["0", "1", "2", "3"],
             "pcf_ai2": ["0", "1", "2", "3"],
             "ain": ["0", "1", "2", "3", "4", "5", "6", "7"],
             "i2c_sensor": ["BMP180", "DHT11"],
             "sensor_model": ["BMP180_Altitude", "BMP180_Pressure", "DHT11", "Flame", "Gas", "Hall", "Joystick", "Photoresistor", "Rain", "Sound", "Thermistor"],
-            "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"]
+            "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"],
+            "lcd_init_clear": ["Initialize", "Clear"],
+            "lcd_line": ["single", "double"],
+            "lcd_mode": ["normal", "permanent", "left_to_right"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
