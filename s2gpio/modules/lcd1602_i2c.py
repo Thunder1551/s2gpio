@@ -18,19 +18,18 @@ def write_single_line_message(message, line, mode, duration):
     if mode == 'left_to_right':
         mes = message_beginn + message
         for i in range(0, len(mes)):
-            LCD1602.write(0, line, mes)
+            LCD1602.write(0, line, mes + empty_message)
             mes = mes[1:]
             time.sleep(0.5)
             LCD1602.clear()
     # Displays the message for the given duration
     elif mode == 'normal':
-        LCD1602.write(0, line, message)
+        LCD1602.write(0, line, message + empty_display) # blanks added to for overwriting previous message
         time.sleep(duration)
         LCD1602.clear()
     # Displays the message solid until it'll be overwritten
     elif mode == 'permanent':
-        LCD1602.write(0, line, empty_display) #overwrite last message
-        LCD1602.write(0, line, message)
+        LCD1602.write(0, line, message + empty_display) # blanks added to for overwriting previous message
         
 def write_double_line_message(message_line0, message_line1, mode, duration):
     # Displays the message on LCD from left to right
@@ -52,13 +51,13 @@ def write_double_line_message(message_line0, message_line1, mode, duration):
             
     # Displays the message for the given duration (Note: 16 symbols)
     elif mode == 'normal':
-        LCD1602.write(0, 0, message_line0)
-        LCD1602.write(0, 1, message_line1)
+        LCD1602.write(0, 0, message_line0 + empty_display) # blanks added to for overwriting previous message
+        LCD1602.write(0, 1, message_line1 + empty_display) # blanks added to for overwriting previous message
         time.sleep(duration)
         LCD1602.clear()
         
-    # Displays the message solid until it'll be overwritten or cleared (clear())
+    # Displays the message permanent until it'll be overwritten or cleared (clear())
     # Attention: not clearing may be harmful to your LCD1602 module
     elif mode == 'permanent':
-        LCD1602.write(0, 0, message_line0)
-        LCD1602.write(0, 1, message_line1)
+        LCD1602.write(0, 0, message_line0 + empty_display) # blanks added to for overwriting previous message
+        LCD1602.write(0, 1, message_line1 + empty_display) # blanks added to for overwriting previous message
