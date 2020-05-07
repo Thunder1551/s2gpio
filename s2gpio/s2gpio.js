@@ -406,7 +406,7 @@
     };
     
     // When the LCD Double Line Display Block is executed
-    ext.lcd_single_line = function (message0, message1, mode, duration) {
+    ext.lcd_double_line = function (message0, message1, mode, duration) {
         if (connected == false) {
             alert("Server Not Connected");
         }
