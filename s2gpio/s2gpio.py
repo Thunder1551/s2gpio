@@ -163,7 +163,7 @@ class S2Gpio(WebSocket):
         elif client_cmd == 'lcd_initialize':
             channel = payload['channel']
             try:
-                lcd1602_i2c.initialize(channel)
+                lcd1602_i2c.initialize(int(channel, 16))
             except OSError:
                 print("lcd_initialize: Display not connected or wrong channel")
         
