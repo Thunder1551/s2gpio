@@ -182,7 +182,7 @@ class S2Gpio(WebSocket):
             mode = payload['mode']
             duration = int(payload['duration'])
             try:
-                lcd1602_i2c.write_single_line_message(message, line, mode, duration)
+                lcd1602_i2c.write_single_line_message(str(message), line, mode, duration)
             except NameError:
                 print("lcd_single_line: Display not initialized")
                 
@@ -193,7 +193,7 @@ class S2Gpio(WebSocket):
             mode = payload['mode']
             duration = int(payload['duration'])
             try:
-                lcd1602_i2c.write_double_line_message(message, line, mode, duration)
+                lcd1602_i2c.write_double_line_message(str(message0), str(message1), mode, duration)
             except NameError:
                 print("lcd_double_line: Display not initialized")
         
