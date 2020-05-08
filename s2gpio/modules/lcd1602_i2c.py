@@ -14,35 +14,34 @@ def clear():
     
 # Note: messages with more than 40 symbols will use both lines
 def write_single_line_message(message, line, mode, duration):
-    # Displays the message on LCD from left to right
-    if mode == 'left_to_right':
+    # Displays the message on LCD in a moving sequence from right to left
+    if mode == 'right_to_left':
         mes = message_begin + message
-        for i in range(0, len(mes)):
+        for i in range(0, len(mes) + 1):
             LCD1602.write(0, line, mes + empty_display)
             mes = mes[1:]
             time.sleep(duration)
-            LCD1602.clear()
     # Displays the message for the given duration
     elif mode == 'normal':
         LCD1602.write(0, line, message + empty_display) # blanks added to for overwriting previous message
         time.sleep(duration)
-        LCD1602.clear()
+        LCD1602.write(0, line, empty_display) # overwrite line not use LCD1602.clear()
     # Displays the message solid until it'll be overwritten
     elif mode == 'permanent':
         LCD1602.write(0, line, message + empty_display) # blanks added to for overwriting previous message
         
 def write_double_line_message(message_line0, message_line1, mode, duration):
-    # Displays the message on LCD from left to right
-    if mode == 'left_to_right':
+    # Displays the message on LCD in a moving sequence from right to left
+    if mode == 'right_to_left':
         message0 = message_begin + message_line0
         message1 = message_begin + message_line1
         # check for the longer message lenght
         lenght = 0
         if len(message0) < len(message1):
-            length = len(message1) +1
+            length = len(message1)
         else:
             length = len(message0)
-        for i in range(0, length):
+        for i in range(0, length + 1):
             LCD1602.write(0, 0, message0 + empty_display)
             LCD1602.write(0, 1, message1 + empty_display)
             message0 = message0[1:]
