@@ -582,7 +582,7 @@
             "analog_sensor": ["Flame", "Gas", "Hall", "Joystick", "Photoresitor", "Rain", "Sound", "Thermistor"],
             "lcd_init_clear": ["Initialize", "Clear"],
             "lcd_line": ["single", "double"],
-            "lcd_mode": ["normal", "permanent", "left_to_right"]
+            "lcd_mode": ["normal", "permanent", "right_to_left"]
 
         },
         url: 'https://github.com/Thunder1551/s2gpio'
