@@ -16,47 +16,58 @@ def clear():
 def write_single_line_message(message, line, mode, duration):
     # Displays the message on LCD in a moving sequence from right to left
     if mode == 'right_to_left':
-        mes = message_begin + message
-        for i in range(0, len(mes) + 1):
-            LCD1602.write(0, line, mes + empty_display)
+        if (len(message_begin + message) < 40):
+            mes = (message_begin + message + empty_display)[0:39]
+        else:
+            mes = (message_begin + message + empty_display)[0:79]
+        for i in range(0, len(message) + 5):
+            LCD1602.write(0, line, mes)
             mes = mes[1:]
             time.sleep(duration)
     # Displays the message for the given duration
     elif mode == 'normal':
-        LCD1602.write(0, line, message + empty_display) # blanks added to for overwriting previous message
+        message = (message + empty_display)[0:15]
+        LCD1602.write(0, line, message) 
         time.sleep(duration)
         LCD1602.write(0, line, empty_display) # overwrite line not use LCD1602.clear()
-    # Displays the message solid until it'll be overwritten
+    # Displays the message permanent until it'll be overwritten or cleared (clear())
+    # Attention: Display messages for long periods may be harmful to your LCD1602 module
     elif mode == 'permanent':
-        LCD1602.write(0, line, message + empty_display) # blanks added to for overwriting previous message
+        message = (message + empty_display)[0:15]
+        LCD1602.write(0, line, message) 
         
 def write_double_line_message(message_line0, message_line1, mode, duration):
     # Displays the message on LCD in a moving sequence from right to left
     if mode == 'right_to_left':
-        message0 = message_begin + message_line0
-        message1 = message_begin + message_line1
+        # add blanks before and after message plus 
+        message0 = (message_begin + message_line0 + empty_display)[0:39]
+        message1 = (message_begin + message_line1 + empty_display)[0:39]
         # check for the longer message lenght
         lenght = 0
-        if len(message0) < len(message1):
-            length = len(message1)
+        if len(message_line0) < len(message_line1):
+            length = len(message_line1)
         else:
-            length = len(message0)
+            length = len(message_line0)
         for i in range(0, length + 1):
-            LCD1602.write(0, 0, message0 + empty_display)
-            LCD1602.write(0, 1, message1 + empty_display)
+            LCD1602.write(0, 0, message0)
+            LCD1602.write(0, 1, message1)
             message0 = message0[1:]
             message1 = message1[1:]
             time.sleep(duration)
             
     # Displays the message for the given duration (Note: 16 symbols)
     elif mode == 'normal':
-        LCD1602.write(0, 0, message_line0 + empty_display) # blanks added to for overwriting previous message
-        LCD1602.write(0, 1, message_line1 + empty_display) # blanks added to for overwriting previous message
+        message0 = (message_line0 + empty_display)[0:15]
+        message1 = (message_line1 + empty_display)[0:15]
+        LCD1602.write(0, 0, message0)
+        LCD1602.write(0, 1, message1)
         time.sleep(duration)
         LCD1602.clear()
         
     # Displays the message permanent until it'll be overwritten or cleared (clear())
-    # Attention: not clearing may be harmful to your LCD1602 module
+    # Attention: Display messages for long periods may be harmful to your LCD1602 module
     elif mode == 'permanent':
-        LCD1602.write(0, 0, message_line0 + empty_display) # blanks added to for overwriting previous message
-        LCD1602.write(0, 1, message_line1 + empty_display) # blanks added to for overwriting previous message
+        message0 = (message_line0 + empty_display)[0:15]
+        message1 = (message_line1 + empty_display)[0:15]
+        LCD1602.write(0, 0, message0)
+        LCD1602.write(0, 1, message1)
