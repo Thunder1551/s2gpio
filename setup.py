@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 from subprocess import call
 
@@ -24,7 +24,7 @@ call(["curl", "-L", "-o", "/usr/lib/scratch2/medialibrarythumbnails/mry.png", "h
 setup(
     name='s2gpio',
     version='0.1',
-    packages=['s2gpio'],
+    packages=find_packages(),
 
     entry_points={
             'console_scripts': ['s2gpio = s2gpio.s2gpio:run_server',
