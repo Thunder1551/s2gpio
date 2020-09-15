@@ -159,11 +159,23 @@ class S2Gpio(WebSocket):
                 self.pi.wave_tx_stop()
                 self.pi.wave_delete(wid)
         
+        """
+        ***RoboRasp ---> Begin of handling client messages 
+        lcd_initialize
+        lcd_clear
+        lcd_single_line
+        lcd_double_line
+        i2c_read
+        pcf_read
+        mcp_read
+        joystick_read_pcf8591
+        """  
+        
         # when a user wants to initialize a LCD1602 display
         elif client_cmd == 'lcd_initialize':
             channel = payload['channel']
             try:
-                lcd1602_i2c.initialize(int(channel, 16))
+                lcd1602_i2c.initialize(int(channel, 16)) # call outsourced read dunction
             except OSError:
                 print("lcd_initialize: Display not connected or wrong channel")
         
