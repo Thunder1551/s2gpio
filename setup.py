@@ -12,7 +12,7 @@ pth = '/home/pi/'
 call(["curl", "-L", "-o", "/home/pi/s2gpio.js", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js"])
 call(["curl", "-L", "-o", "/usr/lib/scratch2/scratch_extensions/s2gpio.js", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js"])
 call(["curl", "-L", "-o", "/usr/lib/scratch2/scratch_extensions/extensions.json", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/additional_files/extensions.json"])
-call(["curl", "-L", "-o", "/usr/lib/scratch2/medialibrarythumbnails/mry.png", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/docs/images/RoboRasp.png"])
+call(["curl", "-L", "-o", "/usr/lib/scratch2/medialibrarythumbnails/RoboRasp.png", "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/docs/images/RoboRasp.png"])
 
 
 #call(["wget", "-o", "-P", pth, "https://raw.githubusercontent.com/Thunder1551/s2gpio/master/s2gpio/s2gpio.js"])
