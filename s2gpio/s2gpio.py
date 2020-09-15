@@ -137,8 +137,6 @@ class S2Pi(WebSocket):
             pass
         else:
             print("Unknown command received", client_cmd)
-          
-          
         elif client_cmd == 'lcd_initialize':
             channel = payload['channel']
             try:
