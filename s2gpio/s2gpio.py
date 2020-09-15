@@ -140,7 +140,6 @@ class S2Pi(WebSocket):
        
         """
         ***RoboRasp ---> Begin of handling client messages 
-        dht11_read
         lcd_initialize
         lcd_clear
         lcd_single_line
@@ -229,7 +228,7 @@ class S2Pi(WebSocket):
                     sensor_value = sound.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'sound_return', 'sound_data': str(sensor_value)}
                 elif model == 'Thermistor':
-                    sensor_value = gas.read_PCF8591(0x48, pin) # call outsourced read dunction
+                    sensor_value = thermistor.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'thermistor_return', 'thermistor_data': str(sensor_value)}
                 msg = json.dumps(payload)
                 self.sendMessage(msg)
