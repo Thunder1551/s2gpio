@@ -511,7 +511,7 @@
             // ***RoboRasp ---> End of implemented block descriptions
         ],
         "menus": {
-            "high_low": ["0", "1"]
+            "high_low": ["0", "1"],
             
              // ***RoboRasp ---> Begin of implemented menus
             "yes_no": ["No", "Yes"],
