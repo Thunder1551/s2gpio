@@ -505,9 +505,16 @@
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
             
-            // ***RoboRasp ---> Begin of implemented block descriptions
-            [" ", "PCF8591: Read %m.analog_sensor at %m.pcf_ai0", "pcf_read", "MODEL", "PIN"],
-			["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
+ 	    // ***RoboRasp ---> Begin of implemented block descriptions
+	    [" ", "LCD1602: Initialize Display on %m.channel", "lcd_initialize", "Channel"],
+            [" ", "LCD1602: Clear Display", "lcd_clear"],
+            [" ", "LCD1602 Single-Line Display: %n %m.high_low %m.lcd_mode %n", "lcd_single_line", "Text", "Line", "Mode", "Duration"],
+            [" ", "LCD1602 Double-Line Display: %n %n %m.lcd_mode %n", "lcd_double_line", "Text_0", "Text_1", "Mode", "Duration"],
+	    [" ", "I2C: Read %m.i2c_sensor sensor on channel %m.channel", "i2c_read", "MODEL", "Channel"],
+	    [" ", "PCF8591: Read %m.analog_sensor at %m.pcf_ai0", "pcf_read", "MODEL", "PIN"],
+	    [" ", "MCP3008: Read %m.analog_sensor at %m.ain", "mcp_read", "MODEL", "PIN"],
+	    [" ", "PCF8591: Read Joystick %m.channel %m.pcf_ai0 %m.pcf_ai1 %m.pcf_ai2", "joystick_read_pcf8591", "Channel", "y_pin", "x_pin", "bt_pin"],
+	    ["r", "Return %m.sensor_model sensor value", "sensor_return", "MODEL"]
             // ***RoboRasp ---> End of implemented block descriptions
         ],
         "menus": {
