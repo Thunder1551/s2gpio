@@ -1,15 +1,15 @@
-# s2-pi
-## A Demo and Tutorial for Creating  Scratch 2 Extensions For The Raspberry Pi
-![](https://github.com/MrYsLab/s2-pi/blob/master/docs/images/logo.png)
+# s2gpio
+## A Scratch 2 Extensions For The Raspberry Pi To Read Analog Sensor Values Via ADCs
+![](https://github.com/thunder1551/s2gpio/blob/master/docs/images/RoboRasp.png)
+
+The Extension is based on Alan Yorick's Scratch 2 Extenion # s2-pi and was developed according to [his tutorial](https://mryslab.github.io/s2-pi/)
+If you are interested in making your own Extension please refer to the [ScratchX tutorial](https://github.com/LLK/scratchx) and the [s2-pi tutorial](https://mryslab.github.io/s2-pi/) first.
 
 To install type:
 
 `
-sudo pip3 install s2-pi
+sudo pip3 install s2gpio
 `
 
-To learn how to create your own extensions, please [read the tutorial](https://mryslab.github.io/s2-pi/).
 
-This project has been crafted with [Pycharm](https://www.jetbrains.com/pycharm/)
-![](https://github.com/MrYsLab/s2-pi/blob/master/docs/images/pycharm_logo.png)
 
