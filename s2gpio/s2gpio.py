@@ -148,7 +148,7 @@ class S2Pi(WebSocket):
         pcf_read
         mcp_read
         joystick_read_pcf8591
-        """
+        """       
         # when a user wants to initialize a LCD1602 display
         elif client_cmd == 'lcd_initialize':
             channel = payload['channel']
@@ -156,7 +156,6 @@ class S2Pi(WebSocket):
                 lcd1602_i2c.initialize(int(channel, 16)) # call outsourced read dunction
             except OSError:
                 print("lcd_initialize: Display not connected or wrong channel")
-        
         
         # when a user wants to clear a LCD1602 display
         elif client_cmd == 'lcd_clear':
