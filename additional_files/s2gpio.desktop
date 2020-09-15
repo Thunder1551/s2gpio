@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=lxterminal -e "s2gpio"
+Icon=scratch
+Terminal=false
+Name=S2GPIO
+Comment=Programming system and content development tool
+Categories=Application;Education;Development;
+MimeType=application/x-scratch-project
+Name[de_DE]=S2GPIO
