@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 import os
 from subprocess import call
 
-#call(["pip3", "install", "git+https://github.com/dpallot/simple-websocket-server.git"])
-#call(["pip3", "install", "git+https://github.com/giampaolo/psutil.git"])
-#call(["pip3", "install", "git+https://github.com/adafruit/Adafruit_Python_GPIO.git"])
-#call(["pip3", "install", "git+https://github.com/adafruit/Adafruit_Python_MCP3008.git"])
-#call(["pip3", "install", "git+https://github.com/coding-world/Python_BMP.git"])
+call(["pip3", "install", "git+https://github.com/dpallot/simple-websocket-server.git"])
+call(["pip3", "install", "git+https://github.com/giampaolo/psutil.git"])
+call(["pip3", "install", "git+https://github.com/adafruit/Adafruit_Python_GPIO.git"])
+call(["pip3", "install", "git+https://github.com/adafruit/Adafruit_Python_MCP3008.git"])
+call(["pip3", "install", "git+https://github.com/coding-world/Python_BMP.git"])
 
 
 user = os.listdir("/home")
