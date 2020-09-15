@@ -171,11 +171,11 @@ class S2Gpio(WebSocket):
         joystick_read_pcf8591
         """  
         
-        # when a user wants to initialize a LCD1602 display
+       # when a user wants to initialize a LCD1602 display
         elif client_cmd == 'lcd_initialize':
             channel = payload['channel']
             try:
-                lcd1602_i2c.initialize(int(channel, 16)) # call outsourced read dunction
+                lcd1602_i2c.initialize(int(channel, 16))
             except OSError:
                 print("lcd_initialize: Display not connected or wrong channel")
         
@@ -183,7 +183,7 @@ class S2Gpio(WebSocket):
         # when a user wants to clear a LCD1602 display
         elif client_cmd == 'lcd_clear':
             try:
-                lcd1602_i2c.clear()
+                lcd1602_i2c.clear() # call outsourced read dunction
             except NameError:
                 print("lcd_clear: Display not initialized")
                 
@@ -194,7 +194,7 @@ class S2Gpio(WebSocket):
             mode = payload['mode']
             duration = int(payload['duration'])
             try:
-                lcd1602_i2c.write_single_line_message(str(message), line, mode, duration)
+                lcd1602_i2c.write_single_line_message(str(message), line, mode, duration) # call outsourced read dunction
             except NameError:
                 print("lcd_single_line: Display not initialized")
             except ValueError:
@@ -207,7 +207,7 @@ class S2Gpio(WebSocket):
             mode = payload['mode']
             duration = int(payload['duration'])
             try:
-                lcd1602_i2c.write_double_line_message(str(message0), str(message1), mode, duration)
+                lcd1602_i2c.write_double_line_message(str(message0), str(message1), mode, duration) # call outsourced read dunction
             except NameError:
                 print("lcd_double_line: Display not initialized")
             except ValueError:
@@ -219,64 +219,90 @@ class S2Gpio(WebSocket):
             channel = payload['channel']
             try:
                 if sensor == 'BMP180':
-                    pressure, altitude = bmp.read_sensor()
+                    pressure, altitude = bmp.read_sensor() # call outsourced read dunction
                     payload = {'report': 'bmp_return', 'bmp_pressure': str(pressure), 'bmp_altitude': str(altitude)}
                     msg = json.dumps(payload)
                     self.sendMessage(msg)
             except OSError:
                 print("I2C_Read: Chosen sensor not connected or wrong channel")
-        
-        # when a user wants to read a PS2 Joystck with PCF8591 module
-        elif client_cmd == 'joystick_read':
-            #direction = joystick_ps2.read_pcf8591(0x48, y_pin, x_pin, bt_pin)
-            value = joystick_ps2.read_PCF8591(0x48,3,2,1)
-            payload = {'report': 'joystick_return', 'joystick_data': str(value)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
-        
-        # when a user wants to read a PS2 Joystck with PCF8591 module
-        elif client_cmd == 'joystick_read_pcf8591':
-            y_pin = int(payload['y_pin'])
-            x_pin = int(payload['x_pin'])
-            bt_pin = int(payload['bt_pin'])
-            try:
-                direction = joystick_ps2.read_PCF8591(0x48, y_pin, x_pin, bt_pin)
-                payload = {'report': 'joystick_return', 'joystick_data': str(direction)}
-                msg = json.dumps(payload)
-                self.sendMessage(msg)
-            except OSError:
-                print("Joystick_Read_PCF8591: Not connected or wrong channel")
-                    
+ 
         # when a user wants to read an analog sensor value with PCF8591 module
         elif client_cmd == 'pcf_read':
             pin = int(payload['a_pin'])
             model = payload['model']
             try:
                 if model == 'Flame':
-                    sensor_value = flame.read_PCF8591(0x48, pin)
+                    sensor_value = flame.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'flame_return', 'flame_data': str(sensor_value)}
                 elif model == 'Gas':
-                    sensor_value = gas.read_PCF8591(0x48, pin)
+                    sensor_value = gas.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'gas_return', 'gas_data': str(sensor_value)}
                 elif model == 'Hall':
-                    sensor_value = analog_hall.read_PCF8591(0x48, pin)
+                    sensor_value = analog_hall.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'hall_return', 'hall_data': str(sensor_value)}
                 elif model == 'Photoresistor':
-                    sensor_value = photoresistor.read_PCF8591(0x48, pin)
+                    sensor_value = photoresistor.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'photoresistor_return', 'photoresistor_data': str(sensor_value)}
                 elif model == 'Rain':
-                    sensor_value = rain.read_PCF8591(0x48, pin)
+                    sensor_value = rain.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'rain_return', 'rain_data': str(sensor_value)}
                 elif model == 'Sound':
-                    sensor_value = sound.read_PCF8591(0x48, pin)
+                    sensor_value = sound.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'sound_return', 'sound_data': str(sensor_value)}
                 elif model == 'Thermistor':
-                    sensor_value = gas.read_PCF8591(0x48, pin)
+                    sensor_value = thermistor.read_PCF8591(0x48, pin) # call outsourced read dunction
                     payload = {'report': 'thermistor_return', 'thermistor_data': str(sensor_value)}
                 msg = json.dumps(payload)
                 self.sendMessage(msg)
             except OSError:
                 print("PCF_Read: Chosen sensor not connected or wrong channel")
+              
+        # when a user wants to read an analog sensor value with MCP3008 module
+        elif client_cmd == 'mcp_read':
+            pin = int(payload['a_pin'])
+            model = payload['model']
+            try:
+                if model == 'Flame':
+                    sensor_value = flame.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'flame_return', 'flame_data': str(sensor_value)}
+                elif model == 'Gas':
+                    sensor_value = gas.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'gas_return', 'gas_data': str(sensor_value)}
+                elif model == 'Hall':
+                    sensor_value = analog_hall.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'hall_return', 'hall_data': str(sensor_value)}
+                elif model == 'Photoresistor':
+                    sensor_value = photoresistor.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'photoresistor_return', 'photoresistor_data': str(sensor_value)}
+                elif model == 'Rain':
+                    sensor_value = rain.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'rain_return', 'rain_data': str(sensor_value)}
+                elif model == 'Sound':
+                    sensor_value = sound.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'sound_return', 'sound_data': str(sensor_value)}
+                elif model == 'Thermistor':
+                    sensor_value = thermistor.read_MCP3008(0, 0, pin) # call outsourced read dunction
+                    payload = {'report': 'thermistor_return', 'thermistor_data': str(sensor_value)}
+                msg = json.dumps(payload)
+                self.sendMessage(msg)
+            except OSError:
+                print("PCF_Read: Chosen sensor not connected or wrong channel")
+              
+              
+        # when a user wants to read a PS2 Joystick with PCF8591 module
+        elif client_cmd == 'joystick_read_pcf8591':
+            y_pin = int(payload['y_pin'])
+            x_pin = int(payload['x_pin'])
+            bt_pin = int(payload['bt_pin'])
+            try:
+                direction = joystick_ps2.read_PCF8591(0x48, y_pin, x_pin, bt_pin) # call outsourced read dunction
+                payload = {'report': 'joystick_return', 'joystick_data': str(direction)}
+                msg = json.dumps(payload)
+                self.sendMessage(msg)
+            except OSError:
+                print("Joystick_Read_PCF8591: Not connected or wrong channel")
+              
+        # ***RoboRasp ---> End of handling client messages 
             
         elif client_cmd == 'ready':
             pass
